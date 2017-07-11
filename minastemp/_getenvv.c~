@@ -1,0 +1,59 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+
+/**
+ * _getenv - returns a double dim pointer with PATH seperated
+ * @varname: enviromental variable's value to return
+ * Return: paths for success, NULL if failed
+ */
+
+char **_getenv(char *varname)
+{
+	extern char **environ;
+	char **paths, *path, *temp;
+	int i = 0, j = 0, size = 20;
+
+	paths = malloc(sizeof(char *) * size + 1);
+	if (!paths)
+		return (NULL);
+	while(environ[i])
+	{
+		temp = environ[i];
+		path = strtok(temp, "=");
+		if (!strcmp(path, varname))
+		{
+			while(path)
+			{
+				path = strtok(NULL, ":");
+				paths[j] = path;
+				j++;
+				if (j >= size)
+				{
+					size += 10;
+					paths = realloc(paths, size * sizeof(char *) + 1);
+				        if (!paths)
+						return (NULL);
+				}
+			}
+			paths[i] = NULL;
+			return (paths);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+int main(void)
+{
+	char **paths;
+	int i = 0;
+
+	paths = _getenv("PATH");
+	while (paths[i])
+	{
+		printf("%s\n", paths[i]);
+		i++;
+	}
+}
