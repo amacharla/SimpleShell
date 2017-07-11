@@ -27,9 +27,9 @@ int main(void)
 	pid_t pid;
 
 	get_command cmd[] =
-       	{
-			{"ls\n", _ls},
-		 	{"ppid\n", _pid},
+	{
+			{"ls", _ls},
+			{"ppid\n", _pid},
 			{"which", _stat},
 			{NULL, NULL}
 	};
@@ -45,7 +45,7 @@ while (1)
 	if (token == NULL) /*strtok error check*/
 	{
 		free(buffer);
-	       	return (-3);
+		return (-3);
 	}
 	/*loop to find match with avaliable commands and token*/
 	for (i = 0; cmd[i].command != NULL; i++)
@@ -78,12 +78,44 @@ while (1)
 /*FUNCTIONS*/
 int _ls(void)
 {
-	int check;
-	char *argv[] = {"/bin/ls", "-l", ".", NULL};
+	char *token = strtok(NULL, " ");/*get first option*/
+	char *argv[] = {"/bin/ls", NULL, NULL, NULL, NULL};/*ls command + 4 options*/
+	char *argv2[] = {"./sh", NULL};/*simple shell arguments*/
+	int check, status, i, j = 1;
+	pid_t pid;
 
-	check = execve(argv[0], argv, NULL);/* $ls -l .*/
-	if (check == -1)/*execve error check*/
+	while (token)/*go through multiple options*/
+	{
+		/*used to strip token of newline*/
+		for (i = 0; token[i]; i++)
+		{
+			if(token[i] == '\n')
+			{
+				token[i] = '\0';
+				break;
+			}
+		}
+		argv[j] = token;/*add option into argv*/
+		j = (j != 5) ? j + 1 : j; /*to prevent segfault and transverse through argv to save options*/
+		token = strtok(NULL, " ");/*get next option*/
+	}
+	pid = fork(); /*forked so parent process doesnt terminate after execve*/
+	if (pid == -1)/*fork fail check*/
 		return (-4);
+	if (pid == 0)/*is child*/
+	{
+		check = execve(argv[0], argv, NULL);/* $ls -options(x4) .*/
+		if (check == -1)/*execve error check*/
+			return (-4);
+	}
+	else
+	{
+		wait(&status);/*wait for child to finish*/
+		/** NOT FREEING BUFFER **/
+		check = execve(argv2[0], argv2, NULL);/*reexecute simpleshell*/
+		if (check == -1)
+			return(-4);
+	}
 	return (0);
 }
 
@@ -105,11 +137,11 @@ int _stat(void)
 		/*used to strip token of newline*/
 		for (i = 0; token[i]; i++)
 		{
- 			if(token[i] == '\n')
-	       		{
-  				token[i] = '\0';
-    				break;
-  			}
+			if(token[i] == '\n')
+			{
+				token[i] = '\0';
+				break;
+			}
 		}
 
 		if (stat(token, &st) == 0)/*if found*/
