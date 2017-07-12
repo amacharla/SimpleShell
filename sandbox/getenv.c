@@ -1,19 +1,37 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-extern char **environ;
+char *_getenv(char *);
 
-int main(int ac, char **av)
+int main(void)
 {
-	char *result;
+	char *result = "NONE FOUND";
 
-	if (ac != 2)
-		return (-1);
+/** CAN NOT RUN BOTH getenv() = cause segfault **/
+	result = _getenv("USER");
+	//result = getenv("user");
 
-	result = _getenv(av[1]);
 	printf("%s\n", result);
+	return (0);
 }
 
-char *_getenv(const char *name)
+char *_getenv(char *name)
 {
+	extern char **environ;
+	char *token;
+	unsigned int i;
 
+	for(i = 0; environ[i]; i++)
+	{
+		token = strtok(environ[i], "=");
+		if (token == NULL)
+			return (NULL);
+		if (strcmp(token, name) == 0)
+		{
+			token = strtok(NULL, "\0");
+			return (token);
+		}
+	}
+	return (NULL);
 }
