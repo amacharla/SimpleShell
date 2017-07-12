@@ -20,6 +20,7 @@ int _stat(void);
 /*MAIN*/
 int main(void)
 {
+	extern char **environ;
 	char *token, *buffer = NULL;
 	ssize_t lineLen;
 	size_t len = 0;
@@ -34,7 +35,7 @@ int main(void)
 			{NULL, NULL}
 	};
 
-while (1)
+	while (1)
 { /*Loop so it can process multiple commands*/
 	printf("--> ");
 	lineLen = getline(&buffer, &len, stdin);

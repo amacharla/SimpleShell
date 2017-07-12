@@ -24,7 +24,9 @@ char *_getenv(char *name)
 /*go through all the char pointers*/
 	for(i = 0; environ[i]; i++)
 	{
+		printf("%s\n", environ[i]);/*check here - MINAS*/
 		token = strtok(environ[i], "="); /*get first section*/
+		printf("%s\n", environ[i]);/*check here - MINAS*/
 		if (token == NULL)
 			return (NULL);
 		if (strcmp(token, name) == 0) /*match name with section*/

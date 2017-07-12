@@ -22,6 +22,7 @@ char **_getenv(char *varname)
 	{
 		temp = environ[i];
 		path = strtok(temp, "=");
+		printf("%s here testing\n", environ[i]);
 		if (!_strcmp(path, varname))
 		{
 			while(path)
