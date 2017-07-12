@@ -19,6 +19,40 @@ int main(void)
 ssize_t _getline(char **lineptr, size_t *n)
 {
 	ssize_t readcount;
+	size_t bytes = 1, maxbytes = 1024;
+	char *buffer;
+	unsigned int i;
+
+	if (*n > 1)
+		bytes = *n;
+	if (*lineptr == NULL)
+		buffer = malloc(sizeof(char) * maxbytes);
+	else
+		buffer = *lineptr;
+
+	do {
+		readcount = read(STDIN_FILENO, buffer, bytes);
+		if (readcount == -1)
+			return (-1);
+		for (i = 0; buffer[i] == '\n'; i++)
+			;
+		buffer[i] = '\0';
+		if (buffer[i] == '\0')
+		{
+			buffer = realloc(buffer, i);
+			break;
+		}
+	} while (1);
+
+	*lineptr = buffer;
+	n = &bytes;
+	return ((ssize_t) bytes);
+
+}
+
+ssize_t t_getline(char **lineptr, size_t *n)
+{
+	ssize_t readcount;
 	size_t totalbytes = 0, bytes, i;
 	char **buffer, *buffer1, *buffer2 = NULL;
 
