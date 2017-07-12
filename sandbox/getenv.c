@@ -21,15 +21,15 @@ char *_getenv(char *name)
 	extern char **environ;
 	char *token;
 	unsigned int i;
-
+/*go through all the char pointers*/
 	for(i = 0; environ[i]; i++)
 	{
-		token = strtok(environ[i], "=");
+		token = strtok(environ[i], "="); /*get first section*/
 		if (token == NULL)
 			return (NULL);
-		if (strcmp(token, name) == 0)
+		if (strcmp(token, name) == 0) /*match name with section*/
 		{
-			token = strtok(NULL, "\0");
+			token = strtok(NULL, "\0");/*get rest of string*/
 			return (token);
 		}
 	}

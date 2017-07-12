@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-extern char **environ;
+#include <unistd.h>
 
 int main(void)
 {
-	char *result;
-	int i;
-	const char *search = "USER";
+	size_t bytes = 3;
+	ssize_t readcount;
+	char *buffer;
 
-	result = getenv(search);
+	buffer = malloc(sizeof(char) * bytes);
 
-	for (i = 0; environ[i]; i++)
-		printf("%s\n", environ[i]);
+	readcount = read(STDIN_FILENO, buffer, bytes);
+	printf("%s | %jd;", buffer, readcount);
 
+	readcount = read(STDIN_FILENO, buffer, bytes);
+	printf("%s", buffer);
+	putchar(10);
 	return (0);
 }
