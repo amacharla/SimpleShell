@@ -38,7 +38,6 @@ char *_getenv(char *name)
 			_strcpy(token, environ[i]);
 			token = strtok(token, "=");
 			token = strtok(NULL, "\0");
-			printf("%s\n", environ[i]); /*check here*/
 			return (token);
                 }
         }
@@ -77,25 +76,22 @@ char **tokenize(char *string, const char *delimiter)
 
 int cmdchk(char **line)
 {
-	struct stat st;/*stat returns struct stat*/
-	int i = 0;
+	extern char **environ;
+	int i = 0 , j;
 	char **paths, *path = _getenv("PATH"), *cmd;
 
-	if (!paths)
+	if (!path)
 		return(-1);
 	paths = tokenize(path, ":");
 	if (!paths)
 		return (-1);
+	cmd = _strdup(line[0]);
 	while (paths[i])
 	{
-		if (!(cmd = _strdup(line[0])))
-			return (-1);
-		if (!(line[0] = _addpath(paths[i], cmd)))
-			return (-1);
-		if (!access(line[0], F_OK))
+		line[0] = _addpath(paths[i], cmd);
+		if(!access(line[0], F_OK))
 			return (1);
 		i++;
-		free(line[0]);
 	}
 	return (0);
 }
@@ -115,16 +111,19 @@ char *_addpath(char *first,char *second)
                 ;
         for (j = 0; second[j]; j++)
 		;
-        k = i + j + 2;
+        k = i + j;
         new = (char *) malloc(k * sizeof(char));
         if (!new)
                 return(NULL);
         for (i = 0; first[i]; i++)
-                new[i] = first[i];
+		new[i] = first[i];
         new[i] = '/';
         i++;
-        for (j = 0; second[j]; j++, i++)
-                new[i] = second[j];
+        for (j = 0; i < k; j++)
+	{
+		new[i] = second[j];
+		i++;
+	}
         new[i] = '\0';
 	return (new);
 }
