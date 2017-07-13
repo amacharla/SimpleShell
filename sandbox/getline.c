@@ -19,7 +19,7 @@ int main(void)
 ssize_t _getline(char **lineptr, size_t *n)
 {
 	ssize_t readcount;
-	size_t bytes = 1, maxbytes = 1024;
+	size_t bytes = 100, maxbytes = 1024;
 	char *buffer;
 	unsigned int i;
 

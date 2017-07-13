@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+	char *argv[] = {"st", NULL};
 
 	printf("before execve\n");
 	/*runs the script ls, sends*/

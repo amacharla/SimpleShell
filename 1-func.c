@@ -25,7 +25,7 @@ char *_strdup(char *str)
 char *_getenv(char *name)
 {
         extern char **environ;
-        char *token, *env;
+        char *token;
         unsigned int i;
 
         for(i = 0; environ[i]; i++)
@@ -48,27 +48,28 @@ char *_getenv(char *name)
 char **tokenize(char *string, const char *delimiter)
 {
 	char **tokens, *token, *arguments;
-	size_t i, numtokens = 0;
+	size_t i, numtokens = 1;
 
 	/* duplicates string so we can manipulate it*/
 	arguments = _strdup(string);
 	if (arguments == NULL)
 		return (NULL);
-
+	/*go through string and count the delimiters*/
 	for(i = 0; arguments[i]; i++)
 		if (arguments[i] == *delimiter)
 			numtokens++;
-
-	tokens = malloc(sizeof(char *) * numtokens);
+	/*allocate space in char *array  to hold tokens from string*/
+	tokens = malloc(sizeof(char *) * numtokens + 1);
 	if (tokens == NULL)
 		return (NULL);
-
+	/*get each token and store it in char *array*/
 	token = strtok(arguments, delimiter);
-	for(i = 0; i < numtokens, token ;i++)
+	for(i = 0; i < numtokens || token != NULL; i++)
 	{
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 	}
+	tokens[i] = NULL;
 
 	return (tokens);
 
@@ -77,7 +78,7 @@ char **tokenize(char *string, const char *delimiter)
 int cmdchk(char **line)
 {
 	extern char **environ;
-	int i = 0 , j;
+	int i = 0;
 	char **paths, *path = _getenv("PATH"), *cmd;
 
 	if (!path)

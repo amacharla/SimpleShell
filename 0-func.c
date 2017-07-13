@@ -46,7 +46,7 @@ int _strcmp(char *s1, char *s2)
 
 int _putstring(char *str)
 {
-	int i = 0, j;
+	int i = 0;
 
 	while (str[i])
 		i++;
