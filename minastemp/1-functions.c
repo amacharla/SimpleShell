@@ -83,19 +83,17 @@ int cmdchk(char **line)
 
 	if (!paths)
 		return(-1);
-	**paths = tokenize(path, ":");
+	paths = tokenize(path, ":");
 	if (!paths)
 		return (-1);
 	while (paths[i])
 	{
-		if (!cmd = _strdub(line[0]))
+		if (!(cmd = _strdup(line[0])))
 			return (-1);
-		if (!line[0] = _addpath(paths[i], cmd))
+		if (!(line[0] = _addpath(paths[i], cmd)))
 			return (-1);
-		if (!stat(line[0], &st))/*if found*/
-			printf("Valid path: %s\n", line[0]);
-		else
-			printf("Invalid path: %s\n", token);
+		if (!access(line[0], F_OK))
+			return (1);
 		i++;
 		free(line[0]);
 	}

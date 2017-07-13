@@ -21,35 +21,6 @@ char *_strcat(char *dest, char *src)
 }
 
 /**
- * _addpath - adds a path in front of a file name
- * @first: first string
- * @second: second string
- * Return: filename with the path, NULL if failed
- */
-
-char *_addpath(char *first,char *second)
-{
-        int i, j, k;
-        char *new;
-
-        for (i = 0; first[i]; i++)
-                ;
-        for (j = 0; second[j]; j++)
-		;
-        k = i + j + 2;
-        new = (char *) malloc(k * sizeof(char));
-        if (!new)
-                return(NULL);
-        for (i = 0; first[i]; i++)
-                new[i] = first[i];
-        new[i] = '/';
-        i++;
-        for (j = 0; second[j]; j++, i++)
-                new[i] = second[j];
-        new[i] = '\0';
-	return (new);
-}
-/**
  * _strcmp - compares two strings
  * @s1: pointer string type char
  * @s2: pointer string type char
