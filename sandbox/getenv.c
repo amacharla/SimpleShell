@@ -9,10 +9,10 @@ int main(void)
 	char *result = "NONE FOUND";
 
 /** CAN NOT RUN BOTH getenv() = cause segfault **/
-	result = _getenv("USER");
-	//result = getenv("user");
+//	result = _getenv("USER");
+	result = getenv("USER");
 
-	printf("%s\n", result);
+	printf("Result: %s\n", result);
 	return (0);
 }
 
@@ -24,9 +24,9 @@ char *_getenv(char *name)
 /*go through all the char pointers*/
 	for(i = 0; environ[i]; i++)
 	{
-		printf("%s\n", environ[i]);/*check here - MINAS*/
+		printf("before: %s\n", environ[i]);/*check here - MINAS*/
 		token = strtok(environ[i], "="); /*get first section*/
-		printf("%s\n", environ[i]);/*check here - MINAS*/
+		printf("after: %s\n", environ[i]);/*check here - MINAS*/
 		if (token == NULL)
 			return (NULL);
 		if (strcmp(token, name) == 0) /*match name with section*/
