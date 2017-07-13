@@ -34,14 +34,17 @@ ssize_t _getline(char **lineptr, size_t *n)
 		readcount = read(STDIN_FILENO, buffer, bytes);
 		if (readcount == -1)
 			return (-1);
-		for (i = 0; buffer[i] == '\n'; i++)
-			;
-		buffer[i] = '\0';
+		for (i = 0; buffer[i]; i++)
+		{
+			if (buffer[i] == '\n')
+				buffer[i] = '\0';
+		}
 		if (buffer[i] == '\0')
 		{
 			buffer = realloc(buffer, i);
 			break;
 		}
+		i++;
 	} while (1);
 
 	*lineptr = buffer;

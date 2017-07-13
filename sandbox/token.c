@@ -38,12 +38,13 @@ char *_strdup(char *str)
 char **tokenize(char *string, const char *delimiter)
 {
 	char **tokens, *token, *arguments;
-	size_t i, numtokens = 0;
+	size_t i, numtokens = 1;
 
 	/* duplicates string so we can manipulate it*/
 	arguments = _strdup(string);
 	if (arguments == NULL)
 		return (NULL);
+
 
 	for(i = 0; arguments[i]; i++)
 		if (arguments[i] == *delimiter)
@@ -59,7 +60,6 @@ char **tokenize(char *string, const char *delimiter)
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 	}
-
 	return (tokens);
 
 }
@@ -68,16 +68,17 @@ int main(void)
 {
 	int i;
 	char **result;
-	char *arguments = "hi,my,name is,anoop.";
+	char *arguments = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games";
 
-	result = tokenize(arguments, ",");
+	result = tokenize(arguments, ":");
 
 
 	printf("arguments: %s\n", arguments);
 
 	for (i = 0; result[i]; i++)
 		printf("Results: %s\n", result[i]);
-
+	printf("%d\n", i);
+	free(result);
 	return (0);
 
 }
