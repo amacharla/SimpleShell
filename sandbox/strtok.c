@@ -10,7 +10,6 @@ char *_strtok(char *str, const char *delim);
 int main(void)
 {
 	char *token, *buffer;
-	size_t len = 0;
 
 	/*stores stream in buffer, and its length*/
 	buffer = "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games";

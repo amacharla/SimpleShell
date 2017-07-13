@@ -7,7 +7,10 @@
 
 int main(void)
 {
+<<<<<<< HEAD
 	extern char **environ;
+=======
+>>>>>>> 2c10a3472eddd3389008bc918458029c0764b125
 	char *buffer = NULL, **line;
 	size_t bufsize = 0;
 	pid_t pid;
@@ -35,8 +38,12 @@ int main(void)
 				_exit(EXIT_FAILURE);
 			}
 		}
+<<<<<<< HEAD
 		else
 			_putstring("command not found");
+=======
+
+>>>>>>> 2c10a3472eddd3389008bc918458029c0764b125
 	}
 	return (0);
 }
