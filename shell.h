@@ -16,6 +16,7 @@ char *_strcpy(char *dest, char *src);
 int _strncmp(char *s1, char *s2, int n);
 int _strlen(char *s);
 char *_strdup(char *name);
+char *_strtok(char *str, const char *delim);
 /*SUPPORT*/
 char *_addpath(char *first,char *second);
 char **tokenize(char *string, const char *delimeter);
