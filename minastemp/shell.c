@@ -7,8 +7,8 @@
 
 int main(void)
 {
-	char *buffer, **line;
-	size_t bufsize = 64;
+	char *buffer = NULL, **line;
+	size_t bufsize = 0;
 	pid_t pid;
 	while(1)
 	{
@@ -25,7 +25,7 @@ int main(void)
 				execve(line[0], line, NULL);
 			_putstring("program executed");
 		}
-		
+
 	}
 	return (0);
 }
