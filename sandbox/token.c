@@ -50,16 +50,17 @@ char **tokenize(char *string, const char *delimiter)
 		if (arguments[i] == *delimiter)
 			numtokens++;
 
-	tokens = malloc(sizeof(char *) * numtokens);
+	tokens = malloc(sizeof(char *) * (numtokens + 1));
 	if (tokens == NULL)
 		return (NULL);
 
 	token = strtok(arguments, delimiter);
-	for(i = 0; i < numtokens, token ;i++)
+	for(i = 0; i < numtokens || token;i++)
 	{
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 	}
+	tokens[i] = NULL;
 	return (tokens);
 
 }
@@ -68,9 +69,9 @@ int main(void)
 {
 	int i;
 	char **result;
-	char *arguments = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games";
+	char *arguments = "ls -l ./../";
 
-	result = tokenize(arguments, ":");
+	result = tokenize(arguments, " ");
 
 
 	printf("arguments: %s\n", arguments);
@@ -78,6 +79,7 @@ int main(void)
 	for (i = 0; result[i]; i++)
 		printf("Results: %s\n", result[i]);
 	printf("%d\n", i);
+	printf(result[i] == NULL ? "NULL" : "NOT NULL");
 	free(result);
 	return (0);
 

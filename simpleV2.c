@@ -7,7 +7,6 @@
 
 int main(void)
 {
-	extern char **environ;
 	char *buffer = NULL, **tokens;
 	size_t bufsize = 0;
 	pid_t pid;
@@ -15,7 +14,7 @@ int main(void)
 
 	while(1)
 	{
-		_putstring("$>");
+		_putstring("$---->");
 		getline(&buffer, &bufsize, stdin);
 		/*_history(buffer);*/
 		tokens = tokenize(buffer, " ");
@@ -29,7 +28,7 @@ int main(void)
 				perror("failed to fork");
 			if (pid == 0)
 			{
-				check = execve(tokens[0], tokens, environ);
+				check = execve(tokens[0], tokens, NULL);
 				if (check == -1)
 					_exit(EXIT_FAILURE);
 			}
@@ -37,7 +36,7 @@ int main(void)
 				wait(&status);
 		}
 		else
-			_putstring("command not found");
+			_putstring("command not found\n");
 	}
 	return (0);
 }

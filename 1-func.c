@@ -17,8 +17,11 @@ char *_strdup(char *str)
 	if (a == NULL)
 		return (NULL);
 	/*coping string*/
-	for (j = 0; j < i; j++)
+	for (j = 0; j < i && str[j] != '\n'; j++)
 		a[j] = str[j];
+	a = realloc(a, j);
+	if (a == NULL)
+		return (NULL);
 	return (a);
 }
 
@@ -36,8 +39,8 @@ char *_getenv(char *name)
 			if (!token)
 				return (NULL);
 			_strcpy(token, environ[i]);
-			token = strtok(token, "=");
-			token = strtok(NULL, "\0");
+			token = strtok(token, "=");/*cut of key*/
+			token = strtok(NULL, "\0");/*get value*/
 			return (token);
                 }
         }
@@ -59,16 +62,17 @@ char **tokenize(char *string, const char *delimiter)
 		if (arguments[i] == *delimiter)
 			numtokens++;
 	/*allocate space in char *array  to hold tokens from string*/
-	tokens = malloc(sizeof(char *) * numtokens + 1);
+	tokens = malloc(sizeof(char *) * (numtokens + 1));
 	if (tokens == NULL)
 		return (NULL);
 	/*get each token and store it in char *array*/
 	token = strtok(arguments, delimiter);
-	for(i = 0; i <= numtokens; i++)
+	for(i = 0; token; i++)
 	{
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 	}
+	tokens[i] = NULL;
 
 	return (tokens);
 
@@ -128,7 +132,7 @@ char *_addpath(char *first,char *second)
 	return (new);
 }
 
-char *strtok(char *str, const char *delim)
+char *_strtok(char *str, const char *delim)
 {
 	static char *statictok;
 	static size_t i;
@@ -177,7 +181,7 @@ char *strtok(char *str, const char *delim)
 	}
 	}
 	if (str == NULL)/*strtok(NULL,delim); access rest of tokens*/
-		return (strtok(statictok, delim));/*use previously saved remainder*/
+		return (_strtok(statictok, delim));/*use previously saved remainder*/
 
 	return (NULL);
 }
