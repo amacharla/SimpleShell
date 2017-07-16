@@ -15,17 +15,19 @@ int main(void)
 	while(1)
 	{
 		_putstring("$---->");
-		getline(&buffer, &bufsize, stdin);
+		check = getline(&buffer, &bufsize, stdin);
+		if (check == -1 && buffer == NULL)
+			perro("Getline failed");
 		/*_history(buffer);*/
 		tokens = tokenize(buffer, " ");
 		if (!tokens)
-			perror("mem allocation failed");
+			perror("Memory Allocation Failed");
 		/*checkforbuiltin(line)*/
 		if (cmdchk(tokens))
 		{
 			pid = fork();
 			if (pid == -1)
-				perror("failed to fork");
+				perror("Failed to Fork");
 			if (pid == 0)
 			{
 				check = execve(tokens[0], tokens, NULL);
@@ -36,7 +38,7 @@ int main(void)
 				wait(&status);
 		}
 		else
-			_putstring("command not found\n");
+			_putstring("Command Not Found\n");
 	}
-	return (0);
+	return (status);
 }

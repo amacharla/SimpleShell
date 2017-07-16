@@ -35,18 +35,18 @@ char *_getenv(char *name)
         {
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
-			token = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name) + 1);
+			/*make space for the VALUE*/
+			token = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
 			if (!token)
 				return (NULL);
 			_strcpy(token, environ[i]);
-			token = strtok(token, "=");/*cut of key*/
+			token = strtok(token, "=");/*cut off key*/
 			token = strtok(NULL, "\0");/*get value*/
 			return (token);
                 }
         }
         return (NULL);
 }
-
 
 char **tokenize(char *string, const char *delimiter)
 {
@@ -115,7 +115,7 @@ char *_addpath(char *first,char *second)
                 ;
         for (j = 0; second[j]; j++)
 		;
-        k = i + j;
+        k = i + j + 1;
         new = (char *) malloc(k * sizeof(char));
         if (!new)
                 return(NULL);
