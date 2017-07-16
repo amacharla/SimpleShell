@@ -11,8 +11,8 @@
 #include <sys/stat.h>/*stat*/
 #include <limits.h>/*INT_MIN*/
 #include <dirent.h>/*closedir,opendir,readdir*/
-#include <unistd.h>/*execve,fork,wait,close,access
-,getcwd,chdir,read,write,exit,stat*/
+/*execve,fork,wait,close,access,getcwd,chdir,read,write,exit,stat*/
+#include <unistd.h>
 
 
 /**
@@ -46,9 +46,9 @@ int _strncmp(char *s1, char *s2, int n);
 
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
-char *_addpath(char *first,char *second);
-char *_getenv(char *name);
-int cmdchk(char **line);
+char *_addpath(char *first, char *second);
+char *_getenv(char *name, char **environ);
+int cmdchk(char *token, char **environ);
 
 /*MEMORYFUNC*/
 int _alloc(char **memory, int controller);

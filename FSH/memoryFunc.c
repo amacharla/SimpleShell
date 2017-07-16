@@ -9,11 +9,13 @@
 int _alloc(char **memory, int controller)
 {
 	static char **memStorage;
-	static int count = 0;
-	size_t oldsize = sizeof(char *) * count;
-	size_t newsize = sizeof(char *) * (count + 1);
+	static int count;
+	size_t oldsize;
+	size_t newsize;
 	int i;
 
+	count = 0;
+	oldsize = sizeof(char *) * count, newsize = sizeof(char *) * (count + 1);
 	if (memory == NULL)/*free all memory*/
 	{
 		if (controller <= -2)/*acceptable controller wasnt given*/
@@ -38,7 +40,7 @@ int _alloc(char **memory, int controller)
 	else/*free given pointer and memory storage*/
 	{
 		if (controller == -2)/*if given memory is a double pointer*/
-			for(i = 0; memory[i]; i++)/*free internal pointers*/
+			for (i = 0; memory[i]; i++)/*free internal pointers*/
 				free(memory[i]);
 		free(memory);/*free pointer*/
 		for (i = 0; i < count; i++)/*free storage individual pointers*/
@@ -72,7 +74,7 @@ char *_strdup(char *str)
 	/*coping string*/
 	for (j = 0; j < i && str[j] != '\n'; j++)
 		a[j] = str[j];
-	a = _realloc(a, sizeof(char), sizeof(char) *j);
+	a = _realloc(a, sizeof(char), sizeof(char) * j);
 	if (a == NULL)
 		return (NULL);
 	return (a);

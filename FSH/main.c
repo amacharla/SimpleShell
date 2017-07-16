@@ -7,11 +7,11 @@ int main(int argc, char **argv, char**env)
 	char *buffer = NULL, **tokens;
 	size_t bufsize = 0;
 	pid_t pid;
-	int status, check;
+	int status, check, count = 1;
 
 	while (1)
-	{
-		_putsstring("$");
+	{	/*GET INPUT*/
+		_printf("$");
 		check = getline(&buffer, &bufsize, stdin);
 		if (check == -1 && bufer == NULL)
 		{
@@ -19,6 +19,7 @@ int main(int argc, char **argv, char**env)
 			_alloc(&buffer, -1);
 			return (EXIT_FAILURE);
 		}
+		/*TOKENIZE & COMMAND CHECK*/
 		tokens = tokenize(buffer, " ");
 		if (tokens == NULL)
 		{
@@ -26,15 +27,15 @@ int main(int argc, char **argv, char**env)
 			_alloc(&buffer, -1);
 		}
 		else
-			isCmd = cmdchk(tokens[0]);
-		if (isCmd == 1)
+			isCmd = cmdchk(tokens[0], env);
+		if (isCmd == 1)/*COMMAND EXECUTION*/
 		{
 			cmd = _addpath(tokens[0]);
 			isSpecial = _specialchk(tokens);
 
-			if (isSpecial == 0)
+			if (isSpecial == 0)/*not special*/
 				check = cmdExec(cmd, tokens);
-			else
+			else/*is special*/
 				check = specialExec(cmd, tokens);
 
 			if (check == -1)
@@ -44,10 +45,12 @@ int main(int argc, char **argv, char**env)
 				return (EXIT_FAILURE);
 			}
 		}
-		else
+		else/*NO COMMAND FOUND*/
 		{
-			_putstring("hsh: %d: tokens[0]: not found\n",
+			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
+			_alloc(&buffer, -1);
 		}
-
+		count++;
 	}
+	return (EXIT_SUCCESS);
 }
