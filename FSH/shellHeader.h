@@ -4,13 +4,39 @@
 /*lIBRARY*/
 #include <stdio.h>/*getline,perror*/
 #include <string.h>/*strtok*/
-#include <stdlib.h>/*malloc,exit,getline*/
+#include <stdlib.h>/*malloc,exit,getline,NULL*/
+#include <stdarg.h>/*va_list*/
 #include <sys/types.h>/*wait,closedir,opendir,stat*/
 #include <sys/wait.h>/*wait*/
 #include <sys/stat.h>/*stat*/
+#include <limits.h>/*INT_MIN*/
 #include <dirent.h>/*closedir,opendir,readdir*/
 #include <unistd.h>/*execve,fork,wait,close,access
 ,getcwd,chdir,read,write,exit,stat*/
+
+
+/**
+* struct printf_functions - struct to match type with printer funcitons
+* @type: input to determine type of printf function
+* @printer: specific printf function
+* Description: the the correct copy function to use
+**/
+typedef struct printf_functions
+{
+	char type;
+	int (*printer)();
+} pstruct;
+
+/*COSTUMFUNC*/
+int _printf(const char *format, ...);
+char *_strtok(char *str, const char *delim);
+
+/*PRINTFFUNC*/
+int _putchar(char c);
+int print_percent(void);
+int print_char(va_list arg);
+int print_string(va_list arg);
+int print_number(va_list arg);
 
 /*STRINGFUNC*/
 char *_strcpy(char *dest, char *src);

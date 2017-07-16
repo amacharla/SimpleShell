@@ -11,7 +11,7 @@ int _alloc(char **memory, int controller)
 	static char **memStorage;
 	static int count = 0;
 	size_t oldsize = sizeof(char *) * count;
-	size_t newsize = sizeof(char *) * count + 1;
+	size_t newsize = sizeof(char *) * (count + 1);
 	int i;
 
 	if (memory == NULL)/*free all memory*/
@@ -122,6 +122,5 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 			newptr[i] = oldptr[i];
 		free(ptr);
 	}
-	_alloc(&newptr, 1);
 	return (newptr);
 }

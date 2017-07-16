@@ -1,17 +1,49 @@
 #include "shellHeader.h"
 
 /**
- * _putstring - prints a string
- * @str: string to print
- * Return: number of chars printed
- */
-int _putstring(char *str)
+** _printf - gives output
+** @format: char
+** Return: num of chars
+**/
+int _printf(const char *format, ...)
 {
-	int i = 0;
+	unsigned int i, j, count;
+	char mod;
+	va_list arguments;
 
-	while (str[i])
-		i++;
-	return (write(STDOUT_FILENO, str, i));
+	pstruct print_func [] = {
+		{'c', print_char}, {'s', print_string}, {'i', print_number},
+		{'d', print_number}, {'%', print_percent}, {'\0', NULL}
+	};
+	va_start(arguments, format);
+	i = 0, j = 0, count = 0;
+	while (format && format[i])
+	{
+		if (!(format[i] == '%' && format[i + 1]))
+			{_putchar(format[i]); count++; i++; continue; } /*move to next argument*/
+		mod = format[i + 1];
+		while (print_func[j].type)
+		{
+			if (print_func[j].type == mod)
+			{
+				count += print_func[j].printer(arguments);
+				i++;
+				break;
+			}
+			j++;
+		}
+		if (print_func[j].type == '\0')
+		{
+			_putchar('%');
+			_putchar(mod);
+			count += 2;
+			i++; /*move past %*/
+		}
+		j = 0; /*reset transverse for type if matched or hits null*/
+		i++; /*move past mod*/
+	}
+	va_end(arguments);
+	return (count);
 }
 
 /**
@@ -50,7 +82,7 @@ char *_strtok(char *str, const char *delim)
 					i--;/*replace delim with null*/
 					token[i] = '\0';
 					/*realloc to required amount*/
-					token = _realloc(token, i);
+					token = _realloc(token, 0, i);
 					if (token == NULL)
 						return (NULL);
 					return (token);
