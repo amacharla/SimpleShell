@@ -9,16 +9,16 @@ int main(int ac, char **av, char **env)
 	char *token, *options;
 	char *tokens[2];
 
-	token = strdup("ls");
-	options = "-l";
+	token = strdup("echo");
+	options = "$PATH";
 	tokens[0] = token;
 	tokens[1] = options;
 
 	result = cmdchk(tokens, env);
-	_printf("Command: %s result: %d\n", tokens[0], result);
+	_printf("MAIN-Command: %s result: %d\n", tokens[0], result);
 
-	result = cmdExec(tokens, env);
-	_printf("options: %s: status:%d\n", tokens[1], result);
+	result = specialExec(tokens, env);
+	_printf("MAIN-options: %s: status:%d\n", tokens[1], result);
 
 	return (0);
 

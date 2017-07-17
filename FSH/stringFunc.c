@@ -34,6 +34,29 @@ char *_strcat(char *dest, char *src)
 
 	return (dest);
 }
+
+/**
+ * _strstr - function that locates the substring
+ * @haystack: string thats being searched
+ * @needle: string to look for
+ * Return: address of the beginning of the string
+ */
+char *_strstr(char *haystack, char *needle)
+{
+	int i, j;
+
+	for (i = 0; haystack[i]; i++)
+	{
+		for (j = 0; needle[j]; j++)
+		{
+			if (haystack[i + j] != needle[j])
+				break;
+		}
+		if (needle[j] == '\0')
+			return (haystack + i);
+	}
+	return (NULL);
+}
 /*
  * _strlen - gets length of string
  * @s: string to count

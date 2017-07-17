@@ -69,7 +69,7 @@ char *_strtok(char *str, const char *delim)
 	{
 		token = _strdup(str);/*duplicate string*/
 
-		for(i = 0; token[i]; i++)/*loop through token*/
+		for (i = 0; token[i]; i++)/*loop through token*/
 		{
 			for (j = 0; delim[j]; j++)/*loop through delim*/
 			{
@@ -106,6 +106,12 @@ char *_strtok(char *str, const char *delim)
 	return (NULL);
 }
 
+/**
+ * cmdExec - execute executables found in PATH
+ * @tokens: command and arguments
+ * @env: current enviroment
+ * Return: Status or Failure
+ */
 int cmdExec(char **tokens, char **env)
 {
 	pid_t pid;
@@ -126,8 +132,51 @@ int cmdExec(char **tokens, char **env)
 	return (status);
 }
 
+/**
+ * specialExec - executes special cmds like echo, cd, set, unset
+ * @tokens: command and its arguments
+ * @env: current enviroment
+ * Return: SUCCESS or FAILURE
+ */
 int specialExec(char **tokens, char **env)
 {
+	pid_t pid;
+	int status, check, i = 0;
+	char *value, *cmd = NULL;
+	char *special [] = {"echo", "cd", "set", "unset", 0};
 
+	do {/*searches string for special commands*/
+		cmd = _strstr(tokens[0], special[i]);
+		i++;
+	} while (cmd == NULL);/*if none found str returns NULL*/
+	i--;/*special identifier*/
+	if (i == 0)/* ECHO */
+	{
+		if (_strstr(tokens[1], "$") != NULL)
+		{
+			value = &tokens[1][1];/*set KEY after $*/
+			tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
+		}
+		check = cmdExec(tokens, env);/*regulary execute cmd*/
+		if (check == -1)
+		{
+			perror("Echo EXECUTION Failed");
+			return (EXIT_FAILURE);
+		}
+		return (EXIT_SUCCESS);
+	}
+	else if (i == 1)/* CD */
+		check = chdir(tokens[1]);
+		if (check == -1)
+		{
+			perror("CD Failed");
+			return (EXIT_FAILURE);
+		}
+	else/* ADD MORE SPECIAL CASES */
+	{
+		perror("EXECUTION Failed");
+		return (EXIT_FAILURE);
+	}
 
+	return (EXIT_SUCCESS);
 }
