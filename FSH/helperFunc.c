@@ -27,8 +27,10 @@ char **tokenize(char *string, const char *delimiter)
 	token = strtok(arguments, delimiter);
 	for (i = 0; token; i++)
 	{
+		token = cutspecial(&token);/*===================MAKE FUNCTION TO CUT OF NEWLINE, TAB========*/
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
+		_alloc(&tokens[i], 1); /* ADDED TO MEMORY STORAGE*/
 	}
 	tokens[i] = NULL;
 
@@ -36,45 +38,14 @@ char **tokenize(char *string, const char *delimiter)
 
 }
 /**
- * _addpath - adds path to filname
- * @first: pointer to path
- * @second: pointer to filename
- * Return: pointer to merged string or NULL if fails
- */
-char *_addpath(char *first, char *second)
-{
-	int i, j, k;
-	char *new;
-
-	for (i = 0; first[i]; i++)
-		;
-	for (j = 0; second[j]; j++)
-		;
-	k = i + j + 1;
-	new = (char *) malloc(k * sizeof(char));
-	if (!new)
-		return (NULL);
-	for (i = 0; first[i]; i++)
-		new[i] = first[i];
-	new[i] = '/';
-	i++;
-	for (j = 0; i < k; j++)
-	{
-		new[i] = second[j];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
-/**
  * _getenv - gets desired enviroment variable
  * @name: KEY
  * @environ: enviroment variables
  * Return: VALUE (string)
  */
-char *_getenv(char *name, const char **environ)
+char *_getenv(char *name, char **environ)
 {
-	char *token;
+	char *value;
 	unsigned int i;
 
 	for (i = 0; environ[i]; i++)
@@ -82,13 +53,14 @@ char *_getenv(char *name, const char **environ)
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
 			/*make space for the VALUE*/
-			token = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
-			if (!token)
+			value = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
+			if (!value)
 				return (NULL);
-			_strcpy(token, environ[i]);
-			token = strtok(token, "=");/*cut off key*/
-			token = strtok(NULL, "\0");/*get value*/
-			return (token);
+			_strcpy(value, environ[i]);
+			value = strtok(value, "=");/*cut off key*/
+			value = strtok(NULL, "\0");/*get value*/
+			_alloc(&value, 1);/* ADDED TO MEMORY STORAGE */
+			return (value);
 		}
 	}
 	return (NULL);
@@ -97,25 +69,37 @@ char *_getenv(char *name, const char **environ)
  * cmdchk - checks in PATH if the first token is an executiable.
  * @token: first token
  * @environ: enviroment variables
- * Return: 1 if cmd else 0
+ * Return: -1 Failure | 0 no cmd | 1 cmd | 2 special cmd
  */
-int cmdchk(char *token, const char **environ)
+int cmdchk(char **tokens, char **environ)
 {
-	int i = 0;
-	char **paths, *path = _getenv("PATH"), *cmd;
+	int i = 0, controller = 0;
+	char **paths, *path, *cmd;
+	char *special [] = {"echo", "cd", "set", "unset", 0};
 
+	path = _getenv("PATH", environ);
 	if (!path)
 		return (-1);
 	paths = tokenize(path, ":");
 	if (!paths)
 		return (-1);
-	cmd = _strdup(token);
+	cmd = _strdup(tokens[0]);
 	while (paths[i])
 	{
-		token = _addpath(paths[i], cmd);
-		if (!access(token, F_OK))
-			return (1);
+		tokens[0] = _addpath(paths[i], cmd);
+		if (!access(tokens[0], F_OK))/*if path found*/
+			controller++;
 		i++;
 	}
-	return (0);
+	i = 0;
+	while (special[i])
+	{
+		if (strcmp(cmd, special[i]))/*if special*/
+		{
+			controller++;
+			break;
+			i++;
+		}
+	}
+	return (controller);
 }

@@ -16,19 +16,17 @@ int _alloc(char **memory, int controller)
 
 	count = 0;
 	oldsize = sizeof(char *) * count, newsize = sizeof(char *) * (count + 1);
+
 	if (memory == NULL)/*free all memory*/
 	{
 		if (controller <= -2)/*acceptable controller wasnt given*/
-			return (-1);
+			return (EXIT_FAILURE);
 
 		for (i = 0; i < count; i++)/*free storage individual pointers*/
 			free(memStorage[i]);
 		free(memStorage);/*free strorage itself*/
 		return (count);
 	}
-
-	if (memory == NULL && controller <= -2)
-		return (-1);
 
 	memStorage = malloc(sizeof(char *));
 	if (controller == 1)/*add memory location*/
@@ -50,6 +48,38 @@ int _alloc(char **memory, int controller)
 	return (count);/*return number of pointers in storage*/
 }
 
+/**
+ * _addpath - adds path to filname
+ * @first: pointer to path
+ * @second: pointer to filename
+ * Return: pointer to merged string or NULL if fails
+ */
+char *_addpath(char *first, char *second)
+{
+	int i, j, k;
+	char *new;
+
+	for (i = 0; first[i]; i++)
+		;
+	for (j = 0; second[j]; j++)
+		;
+	k = i + j + 1;
+	new = (char *) malloc(k * sizeof(char));
+	if (!new)
+		return (NULL);
+	for (i = 0; first[i]; i++)
+		new[i] = first[i];
+	new[i] = '/';
+	i++;
+	for (j = 0; i < k; j++)
+	{
+		new[i] = second[j];
+		i++;
+	}
+	new[i] = '\0';
+	_alloc(&new, 1); /*ADDED POINTER TO MEMORY STORAGE*/
+	return (new);
+}
 /**
  * _strdup - allocates and copies string
  * @str: string thats being duplicated
@@ -77,6 +107,7 @@ char *_strdup(char *str)
 	a = _realloc(a, sizeof(char), sizeof(char) * j);
 	if (a == NULL)
 		return (NULL);
+	_alloc(&a, 1); /* ADDED TO MEMORY STORAGE*/
 	return (a);
 }
 /**

@@ -46,13 +46,14 @@ int _strncmp(char *s1, char *s2, int n);
 
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
-char *_addpath(char *first, char *second);
 char *_getenv(char *name, char **environ);
-int cmdchk(char *token, char **environ);
+int cmdchk(char **token, char **environ);
+
 
 /*MEMORYFUNC*/
 int _alloc(char **memory, int controller);
 char *_strdup(char *str);
+char *_addpath(char *first, char *second);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif /*_SHELLHEADER_H*/

@@ -1,6 +1,22 @@
 #include "shellHeader.h"
 
-int main(void)
+int main(int ac, char **av, char **env)
+{
+	(void)(ac);
+	(void)(av);
+	int result;
+	char *token = "a";
+	char *tokens[1];
+
+	tokens[0] = token;
+
+	result = cmdchk(tokens, env);
+	_printf("ls: %d\n", result);
+
+	return (0);
+
+}
+int _printf_main(void)
 {
 	_printf("This is test1\n%s\n%d\n", "This is test2", 3);
 	return (0);
