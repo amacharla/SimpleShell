@@ -2,13 +2,13 @@
 #FLAGS = -Wall -Werror -Wextra -pedantic -g 
 
 #default
-all: test 
+all: r 
 
 main:
-	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c customFunc.c main.c
-alloc:
-	gcc -g shellHeader.h memoryFunc.c stringFunc.c customFunc.c test.c
+	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c customFunc.c printFunc.c helperFunc.c main.c
 test:
 	gcc -g shellHeader.h memoryFunc.c stringFunc.c customFunc.c printFunc.c helperFunc.c test.c
-run: test
+r: main
+	./a.out
+db: test
 	gdb ./a.out

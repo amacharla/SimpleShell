@@ -27,7 +27,7 @@ char **tokenize(char *string, const char *delimiter)
 	token = strtok(arguments, delimiter);
 	for (i = 0; token; i++)
 	{
-		token = cutspecial(token);/*===================MAKE FUNCTION TO CUT OF NEWLINE, TAB========*/
+		token = cutspecial(token);/*cuts of special endings from str*/
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 		_alloc(&tokens[i], 1); /* ADDED TO MEMORY STORAGE*/
@@ -37,7 +37,11 @@ char **tokenize(char *string, const char *delimiter)
 	return (tokens);
 
 }
-
+/**
+ * cutspecial - cuts of special characters from string
+ * @string: string thats being looked at
+ * Return: cutoff version of string or NULL
+ */
 char *cutspecial(char *string)
 {
 	int i, j;
@@ -84,14 +88,14 @@ char *_getenv(char *name, char **environ)
 }
 /**
  * cmdchk - checks in PATH if the first token is an executiable.
- * @token: first token
+ * @tokens: command and its arguments
  * @environ: enviroment variables
  * Return: -1 Failure | 0 no cmd | 1 cmd | 2 special cmd
  */
 int cmdchk(char **tokens, char **environ)
 {
 	int i = 0, controller = 0;
-	char **paths, *path, *cmd;
+	char **paths, *path, *cmd, *cmdp;
 	char *special [] = {"echo", "cd", "set", "unset", 0};
 
 	path = _getenv("PATH", environ);
@@ -103,9 +107,10 @@ int cmdchk(char **tokens, char **environ)
 	cmd = _strdup(tokens[0]);
 	while (paths[i])
 	{
-		tokens[0] = _addpath(paths[i], cmd);
-		if (!access(tokens[0], F_OK))/*if path found*/
+		cmdp = _addpath(paths[i], cmd);
+		if (!access(cmdp, F_OK))/*if path found*/
 		{
+			tokens[0] = cmdp;
 			controller = 1;
 			break;
 		}
