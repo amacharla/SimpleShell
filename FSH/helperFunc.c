@@ -27,7 +27,7 @@ char **tokenize(char *string, const char *delimiter)
 	token = strtok(arguments, delimiter);
 	for (i = 0; token; i++)
 	{
-		token = cutspecial(&token);/*===================MAKE FUNCTION TO CUT OF NEWLINE, TAB========*/
+		token = cutspecial(token);/*===================MAKE FUNCTION TO CUT OF NEWLINE, TAB========*/
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
 		_alloc(&tokens[i], 1); /* ADDED TO MEMORY STORAGE*/
@@ -36,6 +36,23 @@ char **tokenize(char *string, const char *delimiter)
 
 	return (tokens);
 
+}
+
+char *cutspecial(char *string)
+{
+	int i, j;
+	char special[] = {'\n', '\t', 0};
+
+	if (string == NULL)
+		return (NULL);
+	for (i = 0; string[i]; i++)
+	{
+		for (j = 0; special[j]; j++)
+			if (string[i] == special[j])
+				string[i] = '\0';
+	}
+
+	return (string);
 }
 /**
  * _getenv - gets desired enviroment variable
@@ -88,17 +105,18 @@ int cmdchk(char **tokens, char **environ)
 	{
 		tokens[0] = _addpath(paths[i], cmd);
 		if (!access(tokens[0], F_OK))/*if path found*/
-			controller++;
+		{
+			controller = 1;
+			break;
+		}
 		i++;
 	}
-	i = 0;
-	while (special[i])
+	for (i = 0; special[i]; i++)
 	{
-		if (strcmp(cmd, special[i]))/*if special*/
+		if ((strcmp(cmd, special[i]) == 0))/*if special*/
 		{
-			controller++;
+			controller = 2;
 			break;
-			i++;
 		}
 	}
 	return (controller);

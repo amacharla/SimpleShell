@@ -102,9 +102,9 @@ char *_strdup(char *str)
 	if (a == NULL)
 		return (NULL);
 	/*coping string*/
-	for (j = 0; j < i && str[j] != '\n'; j++)
+	for (j = 0; j < i; j++)
 		a[j] = str[j];
-	a = _realloc(a, sizeof(char), sizeof(char) * j);
+	a = _realloc(a, 0, sizeof(char) * j);
 	if (a == NULL)
 		return (NULL);
 	_alloc(&a, 1); /* ADDED TO MEMORY STORAGE*/
@@ -124,7 +124,12 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 	/*casting the void ptr to become char * so i can do pointer arithmetic*/
 	char *oldptr = ptr;
 	char *newptr;
-	size_t i, size = old_size;
+	size_t i, size;
+
+	if (old_size == 0)
+		old_size = _strlen((char *) ptr);
+
+	size = old_size;
 
 	if (old_size > new_size)
 		size = new_size;

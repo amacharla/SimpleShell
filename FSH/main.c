@@ -30,9 +30,9 @@ int main(int argc, char **argv, char**env)
 		isCmd = cmdchk(tokens[0], env);
 
 		if (isCmd == 1)/*COMMAND EXECUTION*/
-			check = cmdExec(tokens[0], tokens, env);
+			check = cmdExec(tokens, env);
 		else if (isCmd  == 2)/*SPECIAL CMD EXECUTION*/
-			check = specialExec(tokens[0], tokens, env);
+			check = specialExec(tokens, env);
 		else/*NO COMMAND FOUND*/
 		{
 			_printf("hsh: %d: %s: not found\n", count, tokens[0]);

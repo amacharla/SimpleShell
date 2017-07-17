@@ -1,20 +1,57 @@
 #include "shellHeader.h"
 
+
 int main(int ac, char **av, char **env)
 {
 	(void)(ac);
 	(void)(av);
 	int result;
-	char *token = "a";
-	char *tokens[1];
+	char *token, *options;
+	char *tokens[2];
 
+	token = strdup("ls");
+	options = "-l";
 	tokens[0] = token;
+	tokens[1] = options;
 
 	result = cmdchk(tokens, env);
-	_printf("ls: %d\n", result);
+	_printf("Command: %s result: %d\n", tokens[0], result);
+
+	result = cmdExec(tokens, env);
+	_printf("options: %s: status:%d\n", tokens[1], result);
 
 	return (0);
 
+}
+
+int cmdchk_main(int ac, char **av, char **env)
+{
+	(void)(ac);
+	(void)(av);
+	int result;
+	char *token;
+	char *tokens[1];
+
+	token = strdup("cd");
+	tokens[0] = token;
+
+	result = cmdchk(tokens, env);
+	_printf("%s: %d\n", tokens[0], result);
+
+	return (0);
+
+}
+
+int cutspecial_main(void)
+{
+	char *string = "he\n";
+	char *result = strdup(string);
+
+	printf("Before: $%s$", result);
+       result = cutspecial(result);
+       printf("After: $%s$", result);
+
+       return (0);
 }
 int _printf_main(void)
 {

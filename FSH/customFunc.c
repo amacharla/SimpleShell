@@ -105,3 +105,29 @@ char *_strtok(char *str, const char *delim)
 
 	return (NULL);
 }
+
+int cmdExec(char **tokens, char **env)
+{
+	pid_t pid;
+	int status, check;
+
+	pid = fork();
+	if (pid == -1)
+		perror("Failed to Fork");
+	if (pid == 0)
+	{
+		check = execve(tokens[0], tokens, env);
+		if (check == -1)
+			_exit(EXIT_FAILURE);
+	}
+	else
+		wait(&status);
+
+	return (status);
+}
+
+int specialExec(char **tokens, char **env)
+{
+
+
+}

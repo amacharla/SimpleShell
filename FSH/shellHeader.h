@@ -12,8 +12,7 @@
 #include <limits.h>/*INT_MIN*/
 #include <dirent.h>/*closedir,opendir,readdir*/
 /*execve,fork,wait,close,access,getcwd,chdir,read,write,exit,stat*/
-#include <unistd.h>
-
+#include <unistd.h>/*execve*/
 
 /**
 * struct printf_functions - struct to match type with printer funcitons
@@ -30,6 +29,8 @@ typedef struct printf_functions
 /*COSTUMFUNC*/
 int _printf(const char *format, ...);
 char *_strtok(char *str, const char *delim);
+int cmdExec(char **tokens, char **env);
+int specialExec(char **tokens, char **env);
 
 /*PRINTFFUNC*/
 int _putchar(char c);
@@ -48,7 +49,7 @@ int _strncmp(char *s1, char *s2, int n);
 char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);
 int cmdchk(char **token, char **environ);
-
+char *cutspecial(char *string);
 
 /*MEMORYFUNC*/
 int _alloc(char **memory, int controller);
