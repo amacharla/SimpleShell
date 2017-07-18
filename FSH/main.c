@@ -54,9 +54,3 @@ int main(int argc, char **argv, char **env)
 	}
 	return (EXIT_SUCCESS);
 }
-
-void signal_handler(int s)
-{
-	if (s == SIGINT)
-	_printf("\n$ ");
-}
