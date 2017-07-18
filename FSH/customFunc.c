@@ -158,3 +158,13 @@ int specialExec(char **tokens, char **env, int controller)
 	}
 	return (EXIT_SUCCESS);
 }
+
+/**
+ * signal_handler - handle a signal
+ * @s: signal no
+ */
+void signal_handler(int s)
+{
+	if (s == SIGINT)
+		_printf("\n$ ");
+}

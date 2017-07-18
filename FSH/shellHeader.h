@@ -13,7 +13,8 @@
 #include <dirent.h>/*closedir,opendir,readdir*/
 /*execve,fork,wait,close,access,getcwd,chdir,read,write,exit,stat*/
 #include <unistd.h>/*execve*/
-
+#include <signal.h>/*signal*/
+#include <fcntl.h> /*read mode*/
 /**
 * struct printf_functions - struct to match type with printer funcitons
 * @type: input to determine type of printf function
@@ -36,6 +37,8 @@ int specialExec(char **tokens, char **env, int controller);
 int _echo(char **tokens, char **env);
 int _cd(char **tokens, char **env);
 int _env(char **env);
+int history(const char *filename);
+int history_file(const char *filename, char *text_content);
 
 /*PRINTFFUNC*/
 int _putchar(char c);
@@ -50,7 +53,7 @@ char *_strcat(char *dest, char *src);
 char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
-
+int _strcmp(char *s1, char *s2);
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);
@@ -62,5 +65,8 @@ int _alloc(char **memory, int controller);
 char *_strdup(char *str);
 char *_addpath(char *first, char *second);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
+
+/*SIGNAL*/
+void signal_handler(int s);
 
 #endif /*_SHELLHEADER_H*/
