@@ -36,7 +36,6 @@ int history_file(const char *filename, char *text_content)
  * @filename: name of history file
  * Return: returns 1 if success or 0 if fail
  */
-
 int history(const char *filename)
 {
 	int c, fd, i = 1;

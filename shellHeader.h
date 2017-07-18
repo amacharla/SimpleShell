@@ -15,6 +15,7 @@
 #include <unistd.h>/*execve*/
 #include <signal.h>/*signal*/
 #include <fcntl.h> /*read mode*/
+
 /**
 * struct printf_functions - struct to match type with printer funcitons
 * @type: input to determine type of printf function
@@ -37,6 +38,8 @@ int specialExec(char **tokens, char **env, int controller);
 int _echo(char **tokens, char **env);
 int _cd(char **tokens, char **env);
 int _env(char **env);
+
+/*HISTORY*/
 int history(const char *filename);
 int history_file(const char *filename, char *text_content);
 
@@ -54,6 +57,7 @@ char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
 int _strcmp(char *s1, char *s2);
+
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);
