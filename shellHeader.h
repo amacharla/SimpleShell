@@ -40,8 +40,8 @@ int _cd(char **tokens, char **env);
 int _env(char **env);
 
 /*HISTORY*/
-int history(const char *filename);
-int history_file(const char *filename, char *text_content);
+int history(char **env);
+int history_file(char *text_content, char **env);
 
 /*PRINTFFUNC*/
 int _putchar(char c);
