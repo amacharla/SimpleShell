@@ -60,15 +60,11 @@ char *_strtok(char *str, const char *delim)
 	char *token;
 	size_t j;
 
-	/*if str is null and never been run before*/
-	if (str == NULL && i == 0)
+	if (str == NULL && i == 0)/*if str is null and never been run before*/
 		return (NULL);
-
-	/*during the first run*/
-	if (str != NULL)
+	if (str != NULL)/*during the first run*/
 	{
 		token = _strdup(str);/*duplicate string*/
-
 		for (i = 0; token[i]; i++)/*loop through token*/
 		{
 			for (j = 0; delim[j]; j++)/*loop through delim*/
@@ -77,13 +73,10 @@ char *_strtok(char *str, const char *delim)
 				{
 					i++;/*duplicate remainder of token for latter access*/
 					statictok = _strdup(&token[i]);
-					if (statictok == NULL)
-						return (NULL);
 					i--;/*replace delim with null*/
 					token[i] = '\0';
-					/*realloc to required amount*/
-					token = _realloc(token, 0, i);
-					if (token == NULL)
+					token = _realloc(token, 0, i);/*realloc to required amount*/
+					if (statictok == NULL || token == NULL)
 						return (NULL);
 					return (token);
 				}
@@ -98,11 +91,10 @@ char *_strtok(char *str, const char *delim)
 		{
 			free(statictok);
 			return (token);
-	}
+		}
 	}
 	if (str == NULL)/*strtok(NULL,delim); access rest of tokens*/
 		return (_strtok(statictok, delim));/*use previously saved remainder*/
-
 	return (NULL);
 }
 
@@ -133,59 +125,35 @@ int cmdExec(char **tokens, char **env)
 }
 
 /**
- * specialExec - executes special cmds like echo, cd, set, unset
+ * specialExec - executes special cmds func like echo, cd, set, unset
  * @tokens: command and its arguments
  * @env: current enviroment
+ * @controller: point to the right special function to execute the cmd
  * Return: SUCCESS or FAILURE
  */
 int specialExec(char **tokens, char **env, int controller)
 {
-	pid_t pid;
-	int status, check, i;
-	char *value, *cmd = NULL;
+	int check;
+
 	/*if cmd is null or controller is <= 0*/
 	if (tokens[0] == NULL || controller <= 0)
 		return (EXIT_FAILURE);
+
 	if (controller == 1)/* ECHO */
-	{
-		if (_strstr(tokens[1], "$") != NULL)/*get enviroment var*/
-		{
-			value = &tokens[1][1];/*set KEY after $*/
-			tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
-		}
-		else if (_strstr(tokens[1], "*") != NULL)/* ls current directory*/
-		{
-			tokens[0] = "ls";
-			tokens[1] = ".";
-			if (cmdchk(tokens, env) != 0)
-				return (EXIT_FAILURE);
-		}
-	}
+		check = _echo(tokens, env);
 	else if (controller == 2)/* CD */
-	{
-		check = chdir(tokens[1]);
-		if (check == -1)
-		{
-			perror("CD Failed");
-			return (EXIT_FAILURE);
-		}
-	}
+		check = _cd(tokens, env);
 	else if (controller == 3)/* ENV */
-	{
-		for (i = 0; env[i]; i++)
-			_printf("%s\n", env[i]);
-		return (EXIT_SUCCESS);
-	}
+		check = _env(env);
 	else/* ADD MORE SPECIAL CASES */
 	{
 		perror("Special Execution Failed");
 		return (EXIT_FAILURE);
 	}
 
-	check = cmdExec(tokens, env);/*execute cmd which updated tokens*/
 	if (check == EXIT_FAILURE)
 	{
-		perror("Echo Execution Failed");
+		perror("Special Execution Failed");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

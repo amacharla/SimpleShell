@@ -59,19 +59,19 @@ char *_strstr(char *haystack, char *needle)
 	}
 	return (NULL);
 }
-/*
+/**
  * _strlen - gets length of string
  * @s: string to count
  * Return: Length of string.
  */
 int _strlen(char *s)
 {
-        int i = 0;
+	int i = 0;
 
-	if(!s)
+	if (!s)
 		return (-1);
-	while(s[i])
-                i++;
+	while (s[i])
+		i++;
 	return (i);
 }
 /**
@@ -92,5 +92,5 @@ int _strncmp(char *s1, char *s2, int n)
 		if (s1[i] != s2[i])
 			return (0);
 	}
-        return (1);
+	return (1);
 }

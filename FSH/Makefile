@@ -1,11 +1,11 @@
 #var
-#FLAGS = -Wall -Werror -Wextra -pedantic -g 
+FLAGS = -Wall -Werror -Wextra -pedantic -g 
 
 #default
 all: main 
 
 main: cp
-	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c customFunc.c printFunc.c helperFunc.c main.c
+	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c customFunc.c printFunc.c helperFunc.c specialFunc.c main.c
 cp:
 	gcc $(FLAGS) cp.c -o cp
 test:

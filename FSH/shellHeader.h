@@ -32,6 +32,11 @@ char *_strtok(char *str, const char *delim);
 int cmdExec(char **tokens, char **env);
 int specialExec(char **tokens, char **env, int controller);
 
+/*SPECIALFUNC*/
+int _echo(char **tokens, char **env);
+int _cd(char **tokens, char **env);
+int _env(char **env);
+
 /*PRINTFFUNC*/
 int _putchar(char c);
 int print_percent(void);
