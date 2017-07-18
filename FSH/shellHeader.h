@@ -14,7 +14,7 @@
 /*execve,fork,wait,close,access,getcwd,chdir,read,write,exit,stat*/
 #include <unistd.h>/*execve*/
 #include <signal.h>/*signal*/
-
+#include <fcntl.h> /*read mode*/
 /**
 * struct printf_functions - struct to match type with printer funcitons
 * @type: input to determine type of printf function
@@ -37,6 +37,8 @@ int specialExec(char **tokens, char **env, int controller);
 int _echo(char **tokens, char **env);
 int _cd(char **tokens, char **env);
 int _env(char **env);
+int history(const char *filename);
+int history_file(const char *filename, char *text_content);
 
 /*PRINTFFUNC*/
 int _putchar(char c);
