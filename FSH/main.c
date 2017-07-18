@@ -28,7 +28,6 @@ int main(int argc, char **argv, char **env)
 		_printf("$ ");
 	while (getline(&buffer, &bufsize, stdin) != -1)
 	{	/*GET INPUT*/
-		_printf("$ ");
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 		{
