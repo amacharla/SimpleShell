@@ -7,20 +7,20 @@ int main(int ac, char **av, char **env)
 	(void)(av);
 	int result;
 	char *token, *option1, *option2;
-	char *tokens[4];
+	char *tokens[2];
 
-	token = strdup("cp");
-	option1 = strdup("tags");
-	option2 = strdup("tags1");
+	token = strdup("env");
+	//option1 = strdup("*");
+	//option2 = strdup("tags1");
 	tokens[0] = token;
 	tokens[1] = option1;
-	tokens[2] = option2;
-	tokens[3] = NULL;
+//	tokens[2] = option2;
+	tokens[2] = NULL;
 
 	result = cmdchk(tokens, env);
 	_printf("MAIN-Command: %s result: %d\n", tokens[0], result);
 
-	result = cmdExec(tokens, env);
+	result = specialExec(tokens, env, result);
 	_printf("MAIN-options: %s: status:%d\n", tokens[1], result);
 
 	return (0);

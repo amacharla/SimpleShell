@@ -138,21 +138,15 @@ int cmdExec(char **tokens, char **env)
  * @env: current enviroment
  * Return: SUCCESS or FAILURE
  */
-int specialExec(char **tokens, char **env)
+int specialExec(char **tokens, char **env, int controller)
 {
 	pid_t pid;
-	int status, check, i = 0;
+	int status, check, i;
 	char *value, *cmd = NULL;
-	char *special [] = {"echo", "cd", "which", "set", "unset", 0};
-
-	if (tokens[0] == NULL || tokens[1] == NULL)
+	/*if cmd is null or controller is <= 0*/
+	if (tokens[0] == NULL || controller <= 0)
 		return (EXIT_FAILURE);
-	do {/*searches string for special commands*/
-		cmd = _strstr(tokens[0], special[i]);
-		i++;
-	} while (cmd == NULL);/*if none found str returns NULL*/
-	i--;/*special identifier*/
-	if (i == 0)/* ECHO */
+	if (controller == 1)/* ECHO */
 	{
 		if (_strstr(tokens[1], "$") != NULL)/*get enviroment var*/
 		{
@@ -163,11 +157,11 @@ int specialExec(char **tokens, char **env)
 		{
 			tokens[0] = "ls";
 			tokens[1] = ".";
-			if (cmdchk(tokens, env) != 1)
+			if (cmdchk(tokens, env) != 0)
 				return (EXIT_FAILURE);
 		}
 	}
-	else if (i == 1)/* CD */
+	else if (controller == 2)/* CD */
 	{
 		check = chdir(tokens[1]);
 		if (check == -1)
@@ -175,6 +169,12 @@ int specialExec(char **tokens, char **env)
 			perror("CD Failed");
 			return (EXIT_FAILURE);
 		}
+	}
+	else if (controller == 3)/* ENV */
+	{
+		for (i = 0; env[i]; i++)
+			_printf("%s\n", env[i]);
+		return (EXIT_SUCCESS);
 	}
 	else/* ADD MORE SPECIAL CASES */
 	{

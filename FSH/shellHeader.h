@@ -30,7 +30,7 @@ typedef struct printf_functions
 int _printf(const char *format, ...);
 char *_strtok(char *str, const char *delim);
 int cmdExec(char **tokens, char **env);
-int specialExec(char **tokens, char **env);
+int specialExec(char **tokens, char **env, int controller);
 
 /*PRINTFFUNC*/
 int _putchar(char c);

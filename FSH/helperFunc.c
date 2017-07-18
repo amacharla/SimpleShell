@@ -96,12 +96,12 @@ char *_getenv(char *name, char **environ)
  */
 int cmdchk(char **tokens, char **environ)
 {
-	int i, controller = 0;
+	int i, controller = -1;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "which", "set", "unset", 0};
+	char *special [] = {"echo", "cd", "env", "set", "unset", 0};
 
 	if (!access(tokens[0], F_OK))/*if exe in current directory*/
-		return (controller + 1);
+		return (0);
 
 	path = _getenv("PATH", environ);
 	paths = tokenize(path, ":");
@@ -114,7 +114,7 @@ int cmdchk(char **tokens, char **environ)
 		if (!access(cmdp, F_OK))/*if exe found in path*/
 		{
 			tokens[0] = cmdp;
-			controller = 1;
+			controller = 0;
 			break;
 		}
 	}
@@ -122,7 +122,7 @@ int cmdchk(char **tokens, char **environ)
 	{
 		if (_strstr(cmd, special[i]) != NULL)/*if special*/
 		{
-			controller = 2;
+			controller = i + 1;
 			break;
 		}
 	}

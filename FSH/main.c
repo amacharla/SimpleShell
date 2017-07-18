@@ -31,10 +31,10 @@ int main(int argc, char **argv, char**env)
 		/*Check if cmd and if special cmd*/
 		isCmd = cmdchk(tokens, env);
 
-		if (isCmd == 1)/*COMMAND EXECUTION*/
+		if (isCmd == 0)/*COMMAND EXECUTION*/
 			check = cmdExec(tokens, env);
-		else if (isCmd == 2)/*SPECIAL CMD EXECUTION*/
-			check = specialExec(tokens, env);
+		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
+			check = specialExec(tokens, env, isCmd);
 		else/*NO COMMAND FOUND*/
 		{
 			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
@@ -43,7 +43,7 @@ int main(int argc, char **argv, char**env)
 
 		if (check == EXIT_FAILURE)
 		{
-			perror("Command Not Found");
+			perror("Execution Failed");
 			/*_alloc(NULL, -1);*/
 			exit(EXIT_FAILURE);
 		}
