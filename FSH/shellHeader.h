@@ -51,7 +51,7 @@ char *_strcat(char *dest, char *src);
 char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
-
+int _strcmp(char *s1, char *s2);
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);

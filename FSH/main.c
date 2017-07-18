@@ -35,8 +35,8 @@ int main(int argc, char **argv, char **env)
 			perror("tokenize() Failed");
 			/*_alloc(&buffer, -1);*/
 		}
-		if (_strncmp(tokens[0], "exit", 4))
-			exit(EXIT_SUCCESS);
+		if (!_strcmp(tokens[0], "exit"))
+			_exit(EXIT_SUCCESS);
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
 		if (isCmd == 0)/*COMMAND EXECUTION*/
 			check = cmdExec(tokens, env);
