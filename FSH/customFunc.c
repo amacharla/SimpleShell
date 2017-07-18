@@ -143,8 +143,10 @@ int specialExec(char **tokens, char **env)
 	pid_t pid;
 	int status, check, i = 0;
 	char *value, *cmd = NULL;
-	char *special [] = {"echo", "cd", "set", "unset", 0};
+	char *special [] = {"echo", "cd", "which", "set", "unset", 0};
 
+	if (tokens[0] == NULL || tokens[1] == NULL)
+		return (EXIT_FAILURE);
 	do {/*searches string for special commands*/
 		cmd = _strstr(tokens[0], special[i]);
 		i++;
@@ -152,31 +154,39 @@ int specialExec(char **tokens, char **env)
 	i--;/*special identifier*/
 	if (i == 0)/* ECHO */
 	{
-		if (_strstr(tokens[1], "$") != NULL)
+		if (_strstr(tokens[1], "$") != NULL)/*get enviroment var*/
 		{
 			value = &tokens[1][1];/*set KEY after $*/
 			tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
 		}
-		check = cmdExec(tokens, env);/*regulary execute cmd*/
-		if (check == -1)
+		else if (_strstr(tokens[1], "*") != NULL)/* ls current directory*/
 		{
-			perror("Echo EXECUTION Failed");
-			return (EXIT_FAILURE);
+			tokens[0] = "ls";
+			tokens[1] = ".";
+			if (cmdchk(tokens, env) != 1)
+				return (EXIT_FAILURE);
 		}
-		return (EXIT_SUCCESS);
 	}
 	else if (i == 1)/* CD */
+	{
 		check = chdir(tokens[1]);
 		if (check == -1)
 		{
 			perror("CD Failed");
 			return (EXIT_FAILURE);
 		}
+	}
 	else/* ADD MORE SPECIAL CASES */
 	{
-		perror("EXECUTION Failed");
+		perror("Special Execution Failed");
 		return (EXIT_FAILURE);
 	}
 
+	check = cmdExec(tokens, env);/*execute cmd which updated tokens*/
+	if (check == EXIT_FAILURE)
+	{
+		perror("Echo Execution Failed");
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }

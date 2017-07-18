@@ -11,6 +11,8 @@ char **tokenize(char *string, const char *delimiter)
 	char **tokens, *token, *arguments;
 	size_t i, numtokens = 1;
 
+	if (string == NULL || delimiter == NULL)
+		return (NULL);
 	/* duplicates string so we can manipulate it*/
 	arguments = _strdup(string);
 	if (arguments == NULL)
@@ -94,31 +96,31 @@ char *_getenv(char *name, char **environ)
  */
 int cmdchk(char **tokens, char **environ)
 {
-	int i = 0, controller = 0;
+	int i, controller = 0;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "set", "unset", 0};
+	char *special [] = {"echo", "cd", "which", "set", "unset", 0};
+
+	if (!access(tokens[0], F_OK))/*if exe in current directory*/
+		return (controller + 1);
 
 	path = _getenv("PATH", environ);
-	if (!path)
-		return (-1);
 	paths = tokenize(path, ":");
 	if (!paths)
-		return (-1);
+		return (EXIT_FAILURE);
 	cmd = _strdup(tokens[0]);
-	while (paths[i])
+	for (i = 0; paths[i]; i++)
 	{
-		cmdp = _addpath(paths[i], cmd);
-		if (!access(cmdp, F_OK))/*if path found*/
+		cmdp = _addpath(paths[i], cmd);/*add path to cmd*/
+		if (!access(cmdp, F_OK))/*if exe found in path*/
 		{
 			tokens[0] = cmdp;
 			controller = 1;
 			break;
 		}
-		i++;
 	}
 	for (i = 0; special[i]; i++)
 	{
-		if ((strcmp(cmd, special[i]) == 0))/*if special*/
+		if (_strstr(cmd, special[i]) != NULL)/*if special*/
 		{
 			controller = 2;
 			break;

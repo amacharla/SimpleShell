@@ -11,13 +11,13 @@ int main(int argc, char **argv, char**env)
 
 	while (1)
 	{	/*GET INPUT*/
-		_printf("$");
+		_printf("$ ");
 		check = getline(&buffer, &bufsize, stdin);
 		if (check == -1 && buffer == NULL)
 		{
 			perror("getline() Failed");
 			/*_alloc(&buffer, -1);*/
-			return (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		/*TOKENIZE & COMMAND CHECK*/
 		tokens = tokenize(buffer, " ");
@@ -26,6 +26,8 @@ int main(int argc, char **argv, char**env)
 			perror("tokenize() Failed");
 			/*_alloc(&buffer, -1);*/
 		}
+		if (_strncmp(tokens[0], "exit", 4))
+			exit(EXIT_SUCCESS);
 		/*Check if cmd and if special cmd*/
 		isCmd = cmdchk(tokens, env);
 
@@ -39,11 +41,11 @@ int main(int argc, char **argv, char**env)
 			/*_alloc(&buffer, -1);*/
 		}
 
-		if (check == -1)
+		if (check == EXIT_FAILURE)
 		{
-			perror("Execution Failed");
+			perror("Command Not Found");
 			/*_alloc(NULL, -1);*/
-			return (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		count++;
 	}

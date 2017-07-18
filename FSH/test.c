@@ -6,18 +6,21 @@ int main(int ac, char **av, char **env)
 	(void)(ac);
 	(void)(av);
 	int result;
-	char *token, *options;
-	char *tokens[2];
+	char *token, *option1, *option2;
+	char *tokens[4];
 
-	token = strdup("echo");
-	options = "$PATH";
+	token = strdup("cp");
+	option1 = strdup("tags");
+	option2 = strdup("tags1");
 	tokens[0] = token;
-	tokens[1] = options;
+	tokens[1] = option1;
+	tokens[2] = option2;
+	tokens[3] = NULL;
 
 	result = cmdchk(tokens, env);
 	_printf("MAIN-Command: %s result: %d\n", tokens[0], result);
 
-	result = specialExec(tokens, env);
+	result = cmdExec(tokens, env);
 	_printf("MAIN-options: %s: status:%d\n", tokens[1], result);
 
 	return (0);
@@ -32,7 +35,7 @@ int cmdchk_main(int ac, char **av, char **env)
 	char *token;
 	char *tokens[1];
 
-	token = strdup("cd");
+	token = strdup("cp");
 	tokens[0] = token;
 
 	result = cmdchk(tokens, env);

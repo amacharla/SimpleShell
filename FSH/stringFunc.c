@@ -45,6 +45,8 @@ char *_strstr(char *haystack, char *needle)
 {
 	int i, j;
 
+	if (haystack == NULL || needle == NULL)
+		return (NULL);
 	for (i = 0; haystack[i]; i++)
 	{
 		for (j = 0; needle[j]; j++)
