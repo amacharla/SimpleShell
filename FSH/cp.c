@@ -6,6 +6,8 @@
 #include <fcntl.h>
 
 #define size 1204
+
+int cp(char *copy, char *paste);
 /**
  * main - entry point and error handling
  * @argc: argument count
