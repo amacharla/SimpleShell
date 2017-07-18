@@ -11,21 +11,24 @@ int main(int argc, char **argv, char **env)
 {
 	char **tokens, *buffer = NULL;
 	size_t bufsize = 0;
-	int check, isCmd, count = 1;
+	int check, isCmd, count = 1, interactive = 0;
+	struct stat sb;
 
 	UNUSED(argc), UNUSED(argv);
 
 	signal(SIGINT, signal_handler);
-	while (1)
+	if (fstat(STDIN_FILENO, &sb) == -1)
+	{
+		perror("Fstat error");
+		_exit(EXIT_FAILURE);
+	}
+	if ((sb.st_mode & S_IFMT) == S_IFIFO)
+		interactive = 1;
+	if (!interactive)
+		_printf("$ ");
+	while (getline(&buffer, &bufsize, stdin) != -1)
 	{	/*GET INPUT*/
 		_printf("$ ");
-		check = getline(&buffer, &bufsize, stdin);
-		if (check == -1 && buffer == NULL)
-		{
-			perror("getline() Failed");
-			/*_alloc(&buffer, -1);*/
-			exit(EXIT_FAILURE);
-		}
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 		{
@@ -50,7 +53,10 @@ int main(int argc, char **argv, char **env)
 			/*_alloc(NULL, -1);*/
 			exit(EXIT_FAILURE);
 		}
+		if (!interactive)
+			_printf("$ ");
 		count++;
+		fflush(stdin);
 	}
 	return (EXIT_SUCCESS);
 }
