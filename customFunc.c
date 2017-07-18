@@ -145,6 +145,8 @@ int specialExec(char **tokens, char **env, int controller)
 		check = _cd(tokens, env);
 	else if (controller == 3)/* ENV */
 		check = _env(env);
+	else if (controller == 4)/* HISTORY */
+		check = history(env);
 	else/* ADD MORE SPECIAL CASES */
 	{
 		perror("Special Execution Failed");

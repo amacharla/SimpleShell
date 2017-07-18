@@ -98,7 +98,7 @@ int cmdchk(char **tokens, char **environ)
 {
 	int i, controller = -1;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "env", "set", "unset", 0};
+	char *special [] = {"echo", "cd", "env","history", "set", "unset", 0};
 
 	if (!access(tokens[0], F_OK))/*if exe in current directory*/
 		return (0);
