@@ -14,6 +14,8 @@ int main(int argc, char **argv, char **env)
 	int check, isCmd, count = 1;
 
 	UNUSED(argc), UNUSED(argv);
+
+	signal(SIGINT, signal_handler);
 	while (1)
 	{	/*GET INPUT*/
 		_printf("$ ");
@@ -51,4 +53,10 @@ int main(int argc, char **argv, char **env)
 		count++;
 	}
 	return (EXIT_SUCCESS);
+}
+
+void signal_handler(int s)
+{
+	if (s == SIGINT)
+	_printf("\n$ ");
 }

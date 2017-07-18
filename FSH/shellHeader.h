@@ -13,6 +13,7 @@
 #include <dirent.h>/*closedir,opendir,readdir*/
 /*execve,fork,wait,close,access,getcwd,chdir,read,write,exit,stat*/
 #include <unistd.h>/*execve*/
+#include <signal.h>/*signal*/
 
 /**
 * struct printf_functions - struct to match type with printer funcitons
@@ -62,5 +63,8 @@ int _alloc(char **memory, int controller);
 char *_strdup(char *str);
 char *_addpath(char *first, char *second);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
+
+/*SIGNAL*/
+void signal_handler(int s);
 
 #endif /*_SHELLHEADER_H*/
