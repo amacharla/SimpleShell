@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	char *argv[] = {"st", NULL};
+	char *argv[] = {"cp", "test.c", "test1.c", NULL};
 
 	printf("before execve\n");
 	/*runs the script ls, sends*/
