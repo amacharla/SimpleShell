@@ -11,7 +11,7 @@ int main(int argc, char **argv, char **env)
 {
 	char **tokens, *buffer = NULL;
 	size_t bufsize = 0;
-	int check, isCmd, count = 1, interactive = 0, j = 0;
+	int check, isCmd, count = 1, interactive = 0;
 	struct stat sb;
 
 	UNUSED(argc), UNUSED(argv);
@@ -57,9 +57,6 @@ int main(int argc, char **argv, char **env)
 			_printf("$ ");
 		count++;
 		fflush(stdin);
-		free(buffer);
-		while(tokens[j])
-			free(tokens[j]), j++;
 	}
 	return (EXIT_SUCCESS);
 }
