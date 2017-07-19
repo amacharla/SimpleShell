@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env)
 		perror("Fstat error");
 		_exit(EXIT_FAILURE);
 	}
-	if ((sb.st_mode & S_IFMT) == (S_IFIFO || S_IFREG))
+	if ((sb.st_mode & S_IFMT) == S_IFIFO)
 		interactive = 1;
 	if (!interactive)
 		_printf("$ ");
@@ -33,7 +33,6 @@ int main(int argc, char **argv, char **env)
 		if (tokens == NULL)
 		{
 			perror("tokenize() Failed");
-			/*_alloc(&buffer, -1);*/
 		}
 		if (!_strcmp(tokens[0], "exit"))
 			_exit(EXIT_SUCCESS);
@@ -50,8 +49,6 @@ int main(int argc, char **argv, char **env)
 		if (check == EXIT_FAILURE)
 		{
 			perror("Execution Failed");
-			/*_alloc(NULL, -1);*/
-			exit(EXIT_FAILURE);
 		}
 		if (!interactive)
 			_printf("$ ");

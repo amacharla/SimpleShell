@@ -12,8 +12,8 @@ int _printf(const char *format, ...)
 	va_list arguments;
 
 	pstruct print_func [] = {
-		{'c', print_char}, {'s', print_string}, {'i', print_number},
-		{'d', print_number}, {'%', print_percent}, {'\0', NULL}
+		{'c', print_char}, {'s', print_string},
+		{'d', print_number}, {'\0', NULL}
 	};
 	va_start(arguments, format);
 	i = 0, j = 0, count = 0;
@@ -46,6 +46,41 @@ int _printf(const char *format, ...)
 	return (count);
 }
 
+ssize_t _getline(char **lineptr, size_t *n)
+{
+	ssize_t readcount;
+	size_t bytes = 100, maxbytes = 1024, i;
+	char *buffer;
+
+	if (*n > 1)
+		bytes = *n;
+	if (*lineptr == NULL)
+		buffer = malloc(sizeof(char) * maxbytes);
+	else
+		buffer = *lineptr;
+
+	do {
+		readcount = read(STDIN_FILENO, buffer, bytes);
+		if (readcount == -1)
+			return (-1);
+		for (i = 0; buffer[i]; i++)
+		{
+			if (buffer[i] == '\n' || buffer[i] == '\t')
+				buffer[i] = '\0';
+		}
+		if (buffer[i] == '\0')
+		{
+			buffer = _realloc(buffer, 0, i);
+			break;
+		}
+		i++;
+	} while (1);
+
+	*lineptr = buffer;
+	n = &i;
+	return ((ssize_t) bytes);
+
+}
 /**
  * _strtok - splits string based of delimiter
  * Uses Static var to remember string.
@@ -147,6 +182,12 @@ int specialExec(char **tokens, char **env, int controller)
 		check = _env(env);
 	else if (controller == 4)/* HISTORY */
 		check = history(env);
+	else if (controller == 5)/* CP */
+		check = _cp(tokens);
+	/*else if (controller = 6) SET
+		check = _set(tokens, env);*/
+	/*else if (controller = 7) UNSET
+		check = _unset(tokens, env);*/
 	else/* ADD MORE SPECIAL CASES */
 	{
 		perror("Special Execution Failed");

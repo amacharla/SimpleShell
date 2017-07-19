@@ -7,6 +7,7 @@
  */
 int history_file(char *text_content, char **env)
 {
+
 	int c, fd, i = 0, status;
 	char *filename = ".simple_shell_history";
 	pid_t pid;
@@ -70,7 +71,7 @@ int history(char **env)
 				while (buf && *buf != EOF)
 				{
 				       	_printf("%d  %s\n", i, buf);
-					buf = strtok(NULL, "\n\0EOF");
+					buf = strtok(NULL, "\n\0");
 					i++;
 				}
 			}
