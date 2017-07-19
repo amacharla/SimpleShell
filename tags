@@ -8,12 +8,11 @@ FLAGS	Makefile	/^FLAGS = -Wall -Werror -Wextra -pedantic -g $/;"	m
 UNUSED	main.c	2;"	d	file:
 _SHELLHEADER_H	shellHeader.h	2;"	d
 _addpath	memoryFunc.c	/^char *_addpath(char *first, char *second)$/;"	f
-_alloc	memoryFunc.c	/^int _alloc(char **memory, int controller)$/;"	f
-_alloc_main	test.c	/^int _alloc_main(void)$/;"	f
 _cd	specialFunc.c	/^int _cd(char **tokens, char **env)$/;"	f
 _echo	specialFunc.c	/^int _echo(char **tokens, char **env)$/;"	f
 _env	specialFunc.c	/^int _env(char **env)$/;"	f
 _getenv	helperFunc.c	/^char *_getenv(char *name, char **environ)$/;"	f
+_getline	customFunc.c	/^ssize_t _getline(char **lineptr, size_t *n)$/;"	f
 _printf	customFunc.c	/^int _printf(const char *format, ...)$/;"	f
 _printf_main	test.c	/^int _printf_main(void)$/;"	f
 _putchar	printFunc.c	/^int _putchar(char c)$/;"	f
@@ -25,18 +24,9 @@ _strdup	memoryFunc.c	/^char *_strdup(char *str)$/;"	f
 _strlen	stringFunc.c	/^int _strlen(char *s)$/;"	f
 _strncmp	stringFunc.c	/^int _strncmp(char *s1, char *s2, int n)$/;"	f
 _strstr	stringFunc.c	/^char *_strstr(char *haystack, char *needle)$/;"	f
-_strtok	customFunc.c	/^char *_strtok(char *str, const char *delim)$/;"	f
+_strtok	customFunc.c	/^char *_strtok(char *token, const char *delim)$/;"	f
 cmdExec	customFunc.c	/^int cmdExec(char **tokens, char **env)$/;"	f
 cmdchk	helperFunc.c	/^int cmdchk(char **tokens, char **environ)$/;"	f
-cmdchk_main	test.c	/^int cmdchk_main(int ac, char **av, char **env)$/;"	f
-cp	cp.c	/^int cp(char *copy, char *paste)$/;"	f
-cutspecial	helperFunc.c	/^char *cutspecial(char *string)$/;"	f
-cutspecial_main	test.c	/^int cutspecial_main(void)$/;"	f
-history	history.c	/^int history(const char *filename)$/;"	f
-history_file	history.c	/^int history_file(const char *filename, char *text_content)$/;"	f
-main	cp.c	/^int main(int argc, char **argv)$/;"	f
-main	main.c	/^int main(int argc, char **argv, char **env)$/;"	f
-main	test.c	/^int main(int ac, char **av, char **env)$/;"	f
 print_char	printFunc.c	/^int print_char(va_list arg)$/;"	f
 print_number	printFunc.c	/^int print_number(va_list arg)$/;"	f
 print_percent	printFunc.c	/^int print_percent(void)$/;"	f
@@ -45,7 +35,6 @@ printer	shellHeader.h	/^	int (*printer)();$/;"	m	struct:printf_functions
 printf_functions	shellHeader.h	/^typedef struct printf_functions$/;"	s
 pstruct	shellHeader.h	/^} pstruct;$/;"	t	typeref:struct:printf_functions
 signal_handler	customFunc.c	/^void signal_handler(int s)$/;"	f
-size	cp.c	8;"	d	file:
 specialExec	customFunc.c	/^int specialExec(char **tokens, char **env, int controller)$/;"	f
 tokenize	helperFunc.c	/^char **tokenize(char *string, const char *delimiter)$/;"	f
 type	shellHeader.h	/^	char type;$/;"	m	struct:printf_functions
