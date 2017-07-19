@@ -12,8 +12,8 @@ int _printf(const char *format, ...)
 	va_list arguments;
 
 	pstruct print_func [] = {
-		{'c', print_char}, {'s', print_string}, {'i', print_number},
-		{'d', print_number}, {'%', print_percent}, {'\0', NULL}
+		{'c', print_char}, {'s', print_string},
+		{'d', print_number}, {'\0', NULL}
 	};
 	va_start(arguments, format);
 	i = 0, j = 0, count = 0;
@@ -48,8 +48,8 @@ int _printf(const char *format, ...)
 
 ssize_t _getline(char **lineptr, size_t *n)
 {
-	ssize_t readcount, i;
-	size_t bytes = 100, maxbytes = 1024;
+	ssize_t readcount;
+	size_t bytes = 100, maxbytes = 1024, i;
 	char *buffer;
 
 	if (*n > 1)
@@ -182,6 +182,12 @@ int specialExec(char **tokens, char **env, int controller)
 		check = _env(env);
 	else if (controller == 4)/* HISTORY */
 		check = history(env);
+	else if (controller == 5)/* CP */
+		check = _cp(tokens);
+	/*else if (controller = 6) SET
+		check = _set(tokens, env);*/
+	/*else if (controller = 7) UNSET
+		check = _unset(tokens, env);*/
 	else/* ADD MORE SPECIAL CASES */
 	{
 		perror("Special Execution Failed");
