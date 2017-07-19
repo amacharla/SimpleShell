@@ -26,7 +26,7 @@ char **tokenize(char *string, const char *delimiter)
 	if (tokens == NULL)
 		return (NULL);
 	/*get each token and store it in char *array*/
-	token = strtok(arguments, delimiter);
+	token = _strtok(arguments, delimiter);
 	for (i = 0; token; i++)
 	{
 		token = cutspecial(token);/*cuts of special endings from str*/

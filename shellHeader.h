@@ -30,6 +30,7 @@ typedef struct printf_functions
 
 /*COSTUMFUNC*/
 int _printf(const char *format, ...);
+ssize_t _getline(char **lineptr, size_t *n);
 char *_strtok(char *str, const char *delim);
 int cmdExec(char **tokens, char **env);
 int specialExec(char **tokens, char **env, int controller);

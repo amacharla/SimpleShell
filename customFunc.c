@@ -46,6 +46,41 @@ int _printf(const char *format, ...)
 	return (count);
 }
 
+ssize_t _getline(char **lineptr, size_t *n)
+{
+	ssize_t readcount;
+	size_t bytes = 100, maxbytes = 1024, i;
+	char *buffer;
+
+	if (*n > 1)
+		bytes = *n;
+	if (*lineptr == NULL)
+		buffer = malloc(sizeof(char) * maxbytes);
+	else
+		buffer = *lineptr;
+
+	do {
+		readcount = read(STDIN_FILENO, buffer, bytes);
+		if (readcount == -1)
+			return (-1);
+		for (i = 0; buffer[i]; i++)
+		{
+			if (buffer[i] == '\n' || buffer[i] == '\t')
+				buffer[i] = '\0';
+		}
+		if (buffer[i] == '\0')
+		{
+			buffer = _realloc(buffer, 0, i);
+			break;
+		}
+		i++;
+	} while (1);
+
+	*lineptr = buffer;
+	n = &i;
+	return ((ssize_t) bytes);
+
+}
 /**
  * _strtok - splits string based of delimiter
  * Uses Static var to remember string.
@@ -53,18 +88,16 @@ int _printf(const char *format, ...)
  * @delim: delimiter used to break the duplicated string
  * Return: individual tokens or NULL if fails
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *token, const char *delim)
 {
 	static char *statictok;
 	static size_t i;
-	char *token;
 	size_t j;
 
-	if (str == NULL && i == 0)/*if str is null and never been run before*/
+	if (token == NULL && i == 0)/*if str is null and never been run before*/
 		return (NULL);
-	if (str != NULL)/*during the first run*/
+	if (token != NULL)/*during the first run*/
 	{
-		token = _strdup(str);/*duplicate string*/
 		for (i = 0; token[i]; i++)/*loop through token*/
 		{
 			for (j = 0; delim[j]; j++)/*loop through delim*/
@@ -87,13 +120,13 @@ char *_strtok(char *str, const char *delim)
 				}
 			}
 		}
-		if (token == NULL)/*no match return duplicate copy*/
+		if (token != NULL)/*no match return same copy*/
 		{
 			free(statictok);
 			return (token);
 		}
 	}
-	if (str == NULL)/*strtok(NULL,delim); access rest of tokens*/
+	if (token == NULL)/*strtok(NULL,delim); access rest of tokens*/
 		return (_strtok(statictok, delim));/*use previously saved remainder*/
 	return (NULL);
 }
