@@ -69,11 +69,8 @@ char *cutspecial(char *string);
 char *_addpath(char *first, char *second);
 
 /*MEMORYFUNC*/
-<<<<<<< HEAD
-=======
 char *_strdup(char *str);
 char *_addpath(char *first, char *second);
->>>>>>> e6b83a3be6663300ff813057a95fef57fe8e531b
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
 /*SIGNAL*/
