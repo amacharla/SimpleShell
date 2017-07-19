@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env)
 		perror("Fstat error");
 		_exit(EXIT_FAILURE);
 	}
-	if ((sb.st_mode & S_IFMT) == (S_IFIFO || S_IFREG))
+	if ((sb.st_mode & S_IFMT) == S_IFIFO)
 		interactive = 1;
 	if (!interactive)
 		_printf("$ ");
