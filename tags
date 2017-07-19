@@ -8,14 +8,15 @@ FLAGS	Makefile	/^FLAGS = -Wall -Werror -Wextra -pedantic -g $/;"	m
 UNUSED	main.c	2;"	d	file:
 _SHELLHEADER_H	shellHeader.h	2;"	d
 _addpath	memoryFunc.c	/^char *_addpath(char *first, char *second)$/;"	f
-_alloc	memoryFunc.c	/^int _alloc(char **memory, int controller)$/;"	f
-_alloc_main	test.c	/^int _alloc_main(void)$/;"	f
+_alloc	alloc.c	/^int _alloc(char *memory, int controller)$/;"	f
+_alloc	test.c	/^int _alloc(char **memory, int controller)$/;"	f
 _cd	specialFunc.c	/^int _cd(char **tokens, char **env)$/;"	f
+_cp	specialFunc.c	/^int _cp(char **tokens)$/;"	f
 _echo	specialFunc.c	/^int _echo(char **tokens, char **env)$/;"	f
 _env	specialFunc.c	/^int _env(char **env)$/;"	f
+_free	memoryFunc.c	/^int _free(char **memory)$/;"	f
 _getenv	helperFunc.c	/^char *_getenv(char *name, char **environ)$/;"	f
 _printf	customFunc.c	/^int _printf(const char *format, ...)$/;"	f
-_printf_main	test.c	/^int _printf_main(void)$/;"	f
 _putchar	printFunc.c	/^int _putchar(char c)$/;"	f
 _realloc	memoryFunc.c	/^void *_realloc(void *ptr, size_t old_size, size_t new_size)$/;"	f
 _strcat	stringFunc.c	/^char *_strcat(char *dest, char *src)$/;"	f
@@ -28,18 +29,15 @@ _strstr	stringFunc.c	/^char *_strstr(char *haystack, char *needle)$/;"	f
 _strtok	customFunc.c	/^char *_strtok(char *str, const char *delim)$/;"	f
 cmdExec	customFunc.c	/^int cmdExec(char **tokens, char **env)$/;"	f
 cmdchk	helperFunc.c	/^int cmdchk(char **tokens, char **environ)$/;"	f
-cmdchk_main	test.c	/^int cmdchk_main(int ac, char **av, char **env)$/;"	f
 cp	cp.c	/^int cp(char *copy, char *paste)$/;"	f
 cutspecial	helperFunc.c	/^char *cutspecial(char *string)$/;"	f
-cutspecial_main	test.c	/^int cutspecial_main(void)$/;"	f
-history	history.c	/^int history(const char *filename)$/;"	f
-history_file	history.c	/^int history_file(const char *filename, char *text_content)$/;"	f
+history	history.c	/^int history(char **env)$/;"	f
+history_file	history.c	/^int history_file(char *text_content, char **env)$/;"	f
 main	cp.c	/^int main(int argc, char **argv)$/;"	f
 main	main.c	/^int main(int argc, char **argv, char **env)$/;"	f
-main	test.c	/^int main(int ac, char **av, char **env)$/;"	f
+main	test.c	/^int main(void)$/;"	f
 print_char	printFunc.c	/^int print_char(va_list arg)$/;"	f
 print_number	printFunc.c	/^int print_number(va_list arg)$/;"	f
-print_percent	printFunc.c	/^int print_percent(void)$/;"	f
 print_string	printFunc.c	/^int print_string(va_list arg)$/;"	f
 printer	shellHeader.h	/^	int (*printer)();$/;"	m	struct:printf_functions
 printf_functions	shellHeader.h	/^typedef struct printf_functions$/;"	s

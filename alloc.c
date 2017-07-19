@@ -1,9 +1,11 @@
-//#include "shellHeader.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
-int _alloc(char **memory, int controller)
+/**
+ * _alloc - remembers allocated memory so can free all if needed memory.
+ * @memory: address of memory thats was malloced
+ * @controller: action to take with the given memory
+ * Return: number of pointers in storage
+ */
+int _alloc(char *memory, int controller)
 {
 	static char **memStorage;
 	static int count;
@@ -28,7 +30,7 @@ int _alloc(char **memory, int controller)
 	if (controller == 1)/*add memory location*/
 	{	/*make space for 1 pointer*/
 		memStorage[count] = malloc(sizeof(char *));
-		memStorage[count] = *memory;/*add pointer*/
+		memStorage[count] = memory;/*add pointer*/
 		count++;/*storage count*/
 	}
 	else/*free given pointer and memory storage*/
@@ -36,27 +38,11 @@ int _alloc(char **memory, int controller)
 		//if (controller == -2)/*if given memory is a double pointer*/
 		//	for (i = 0; memory[i]; i++)/*free internal pointers*/
 		//		free(memory[i]);
-		free(*memory);/*free pointer*/
-		free(memory);
+		free(memory);/*free pointer*/
 		for (i = 0; i < count && memStorage[i]; i++)/*free storage individual pointers*/
 			free(memStorage[i]);
-		free(*memStorage);/*free strorage itself*/
 		free(memStorage);/*free strorage itself*/
 	}
 	return (count);/*return number of pointers in storage*/
 }
-int main(void)
-{
-	char *content = strdup("test");
 
-	_alloc(NULL, 0);
-
-	_alloc(&content,1);
-	printf("Content: %s\n", content);
-
-	_alloc(NULL, -1);
-	printf("Content after: %s\n", content);
-	free(content);
-	return (0);
-
-}

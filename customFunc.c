@@ -12,8 +12,8 @@ int _printf(const char *format, ...)
 	va_list arguments;
 
 	pstruct print_func [] = {
-		{'c', print_char}, {'s', print_string}, {'i', print_number},
-		{'d', print_number}, {'%', print_percent}, {'\0', NULL}
+		{'c', print_char}, {'s', print_string},
+		{'d', print_number}, {'\0', NULL}
 	};
 	va_start(arguments, format);
 	i = 0, j = 0, count = 0;
@@ -138,21 +138,29 @@ int specialExec(char **tokens, char **env, int controller)
 	/*if cmd is null or controller is <= 0*/
 	if (tokens[0] == NULL || controller <= 0)
 		return (EXIT_FAILURE);
-
-	if (controller == 1)/* ECHO */
-		check = _echo(tokens, env);
-	else if (controller == 2)/* CD */
-		check = _cd(tokens, env);
-	else if (controller == 3)/* ENV */
-		check = _env(env);
-	else if (controller == 4)/* HISTORY */
-		check = history(env);
-	else/* ADD MORE SPECIAL CASES */
-	{
-		perror("Special Execution Failed");
-		return (EXIT_FAILURE);
+	switch (controller) {
+		case 1 :/* ECHO */
+			check = _echo(tokens, env);
+			break;
+		case 2 :/* CD */
+			check = _cd(tokens, env);
+			break;
+		case 3 :/* ENV */
+			check = _env(env);
+			break;
+		case 4 :/* HISTORY */
+			check = history(env);
+			break;
+		case 5 :/* CP */
+			check = _cp(tokens);
+			break;
+		case 6 :/* UNSET
+			check = _unset(env);
+			break;*/
+		default :/* ADD MORE SPECIAL CASES */
+			perror("Special Execution Failed");
+			return (EXIT_FAILURE);
 	}
-
 	if (check == EXIT_FAILURE)
 	{
 		perror("Special Execution Failed");
