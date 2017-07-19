@@ -48,8 +48,8 @@ int _printf(const char *format, ...)
 
 ssize_t _getline(char **lineptr, size_t *n)
 {
-	ssize_t readcount;
-	size_t bytes = 100, maxbytes = 1024, i;
+	ssize_t readcount, i;
+	size_t bytes = 100, maxbytes = 1024;
 	char *buffer;
 
 	if (*n > 1)

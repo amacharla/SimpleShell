@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **env)
 		interactive = 1;
 	if (!interactive)
 		_printf("$ ");
-	while (_getline(&buffer, &bufsize) != -1)
+	while (getline(&buffer, &bufsize, stdin) != -1)
 	{
 		check = history_file(buffer, env);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
