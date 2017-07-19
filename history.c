@@ -8,7 +8,7 @@
 int history_file(char *text_content, char **env)
 {
 	int c, fd, status = 0;
-	char *newline = "\n", *filename = ".simple_shell_history";
+	char *filename = ".simple_shell_history";
 	pid_t pid;
 
 	if (text_content == NULL)
