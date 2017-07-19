@@ -5,7 +5,7 @@ FLAGS = -Wall -Werror -Wextra -pedantic -g
 all: main 
 
 main: cp
-	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c stringFunc2.c customFunc.c printFunc.c helperFunc.c specialFunc.c history.c main.c -g -o hsh
+	gcc $(FLAGS) shellHeader.h memoryFunc.c stringFunc.c stringFunc2.c customFunc.c printFunc.c helperFunc.c specialFunc.c history.c main.c
 cp:
 	gcc $(FLAGS) cp.c -o cp
 test: 
