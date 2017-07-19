@@ -30,6 +30,7 @@ typedef struct printf_functions
 
 /*COSTUMFUNC*/
 int _printf(const char *format, ...);
+ssize_t _getline(char **lineptr, size_t *n);
 char *_strtok(char *str, const char *delim);
 int cmdExec(char **tokens, char **env);
 int specialExec(char **tokens, char **env, int controller);
@@ -38,6 +39,7 @@ int specialExec(char **tokens, char **env, int controller);
 int _echo(char **tokens, char **env);
 int _cd(char **tokens, char **env);
 int _env(char **env);
+int _cp(char **tokens);
 
 /*HISTORY*/
 int history(char **env);
@@ -65,7 +67,8 @@ int cmdchk(char **token, char **environ);
 char *cutspecial(char *string);
 
 /*MEMORYFUNC*/
-int _alloc(char **memory, int controller);
+int _free(char **memory);
+int _alloc(char *memory, int controller);
 char *_strdup(char *str);
 char *_addpath(char *first, char *second);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);

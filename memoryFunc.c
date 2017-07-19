@@ -1,53 +1,16 @@
 #include "shellHeader.h"
 
-/**
- * _alloc - remembers allocated memory so can free all if needed memory.
- * @memory: address of memory thats was malloced
- * @controller: action to take with the given memory
- * Return: number of pointers in storage
- */
-int _alloc(char **memory, int controller)
+int _free(char **memory)
 {
-	static char **memStorage;
-	static int count;
-	size_t oldsize;
-	size_t newsize;
 	int i;
 
-	count = 0;
-	oldsize = sizeof(char *) * count, newsize = sizeof(char *) * (count + 1);
-
-	if (memory == NULL)/*free all memory*/
-	{
-		if (controller <= -2)/*acceptable controller wasnt given*/
-			return (EXIT_FAILURE);
-
-		for (i = 0; i < count; i++)/*free storage individual pointers*/
-			free(memStorage[i]);
-		free(memStorage);/*free strorage itself*/
-		return (count);
-	}
-
-	memStorage = malloc(sizeof(char *));
-	if (controller == 1)/*add memory location*/
-	{	/*make space for 1 pointer*/
-		memStorage = _realloc(memStorage, oldsize, newsize);
-		memStorage[count] = *memory;/*add pointer*/
-		count++;/*storage count*/
-	}
-	else/*free given pointer and memory storage*/
-	{
-		if (controller == -2)/*if given memory is a double pointer*/
-			for (i = 0; memory[i]; i++)/*free internal pointers*/
-				free(memory[i]);
-		free(memory);/*free pointer*/
-		for (i = 0; i < count; i++)/*free storage individual pointers*/
-			free(memStorage[i]);
-		free(memStorage);/*free strorage itself*/
-	}
-	return (count);/*return number of pointers in storage*/
+	if (memory == NULL)
+		return (EXIT_FAILURE);
+	for (i = 0; memory[i]; i++)
+		free(memory[i]);
+	free(memory);
+	return (EXIT_SUCCESS);
 }
-
 /**
  * _addpath - adds path to filname
  * @first: pointer to path
@@ -64,20 +27,16 @@ char *_addpath(char *first, char *second)
 	for (j = 0; second[j]; j++)
 		;
 	k = i + j + 1;
-	new = (char *) malloc(k * sizeof(char));
+	new = malloc(k * sizeof(char));
 	if (!new)
 		return (NULL);
 	for (i = 0; first[i]; i++)
 		new[i] = first[i];
 	new[i] = '/';
 	i++;
-	for (j = 0; i < k; j++)
-	{
+	for (j = 0; i < k; j++, i++)
 		new[i] = second[j];
-		i++;
-	}
 	new[i] = '\0';
-	_alloc(&new, 1); /*ADDED POINTER TO MEMORY STORAGE*/
 	return (new);
 }
 /**
@@ -102,12 +61,8 @@ char *_strdup(char *str)
 	if (a == NULL)
 		return (NULL);
 	/*coping string*/
-	for (j = 0; j < i; j++)
+	for (j = 0; j <= i; j++)
 		a[j] = str[j];
-	a = _realloc(a, 0, sizeof(char) * j);
-	if (a == NULL)
-		return (NULL);
-	_alloc(&a, 1); /* ADDED TO MEMORY STORAGE*/
 	return (a);
 }
 /**

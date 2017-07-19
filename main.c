@@ -15,7 +15,6 @@ int main(int argc, char **argv, char **env)
 	struct stat sb;
 
 	UNUSED(argc), UNUSED(argv);
-
 	signal(SIGINT, signal_handler);
 	if (fstat(STDIN_FILENO, &sb) == -1)
 	{
@@ -26,39 +25,36 @@ int main(int argc, char **argv, char **env)
 		interactive = 1;
 	if (!interactive)
 		_printf("$ ");
-	while (getline(&buffer, &bufsize, stdin) != -1)
+	while (_getline(&buffer, &bufsize) != -1)
 	{
-		history_file(buffer, env);
+		check = history_file(buffer, env);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 		{
+			free(buffer);
 			perror("tokenize() Failed");
-			/*_alloc(&buffer, -1);*/
 		}
 		if (!_strcmp(tokens[0], "exit"))
+		{
+			_free(tokens);
 			_exit(EXIT_SUCCESS);
+		}
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
 		if (isCmd == 0)/*COMMAND EXECUTION*/
 			check = cmdExec(tokens, env);
 		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
 			check = specialExec(tokens, env, isCmd);
 		else/*NO COMMAND FOUND*/
-		{
 			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
-			/*_alloc(&buffer, -1);*/
-		}
 		if (check == EXIT_FAILURE)
 		{
 			perror("Execution Failed");
-			/*_alloc(NULL, -1);*/
-			exit(EXIT_FAILURE);
+			/*exit(EXIT_FAILURE);*/
 		}
 		if (!interactive)
 			_printf("$ ");
 		count++;
 		fflush(stdin);
-		free(buffer);
-		free(tokens);
 	}
 	return (EXIT_SUCCESS);
 }
