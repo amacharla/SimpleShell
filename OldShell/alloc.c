@@ -29,7 +29,6 @@ int _alloc(char *memory, int controller)
 
 	if (controller == 1)/*add memory location*/
 	{	/*make space for 1 pointer*/
-		memStorage[count] = malloc(sizeof(char *));
 		memStorage[count] = memory;/*add pointer*/
 		count++;/*storage count*/
 	}

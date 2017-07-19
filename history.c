@@ -13,7 +13,6 @@ int history_file(char *text_content, char **env)
 
 	if (text_content == NULL)
 		exit(EXIT_FAILURE);
-	text_content = cutspecial(text_content);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
@@ -25,7 +24,6 @@ int history_file(char *text_content, char **env)
 			exit(EXIT_FAILURE);
 
 		c = write(fd, text_content, _strlen(text_content));
-		c = write(fd, newline, 1);
 		if (c == -1)
 		{
 			close(fd);
