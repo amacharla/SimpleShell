@@ -32,9 +32,10 @@ char **tokenize(char *string, const char *delimiter)
 		token = cutspecial(token);/*cuts of special endings from str*/
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
+		_alloc(&tokens[i], 1); /* ADDED TO MEMORY STORAGE*/
 	}
 	tokens[i] = NULL;
-	/*free(arguments); DONT KNOW WHY BUT FREEING CAUSES TOKENS TO BE NULL*/
+
 	return (tokens);
 
 }
@@ -74,9 +75,14 @@ char *_getenv(char *name, char **environ)
 	{
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
-			value = _strdup(environ[i]);
+			/*make space for the VALUE*/
+			value = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
+			if (!value)
+				return (NULL);
+			_strcpy(value, environ[i]);
 			value = strtok(value, "=");/*cut off key*/
 			value = strtok(NULL, "\0");/*get value*/
+			_alloc(&value, 1);/* ADDED TO MEMORY STORAGE */
 			return (value);
 		}
 	}
@@ -92,7 +98,10 @@ int cmdchk(char **tokens, char **environ)
 {
 	int i, controller = -1;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "env","history", "cp", "unset", 0};
+	char *special [] = {"echo", "cd", "env","history", "set", "unset", 0};
+
+	if (!access(tokens[0], F_OK))/*if exe in current directory*/
+		return (0);
 
 	path = _getenv("PATH", environ);
 	paths = tokenize(path, ":");
