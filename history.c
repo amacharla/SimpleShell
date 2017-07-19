@@ -69,7 +69,7 @@ int history(char **env)
 				buf = strtok(text, "\n");
 				while (buf && *buf != EOF)
 				{
-				       	_printf("%d %s\n", i, buf);
+				       	_printf("%d  %s\n", i, buf);
 					buf = strtok(NULL, "\n\0EOF");
 					i++;
 				}
