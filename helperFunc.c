@@ -32,10 +32,9 @@ char **tokenize(char *string, const char *delimiter)
 		token = cutspecial(token);/*cuts of special endings from str*/
 		tokens[i] = token;
 		token = strtok(NULL, delimiter);
-		_alloc(&tokens[i], 1); /* ADDED TO MEMORY STORAGE*/
 	}
 	tokens[i] = NULL;
-
+	free(arguments);
 	return (tokens);
 
 }
@@ -68,7 +67,7 @@ char *cutspecial(char *string)
  */
 char *_getenv(char *name, char **environ)
 {
-	char *value;
+	char *value, *temp;
 	unsigned int i;
 
 	for (i = 0; environ[i]; i++)
@@ -79,10 +78,9 @@ char *_getenv(char *name, char **environ)
 			value = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
 			if (!value)
 				return (NULL);
-			_strcpy(value, environ[i]);
+			_strncpy(value, environ[i], (_strlen(name) + 1));
 			value = strtok(value, "=");/*cut off key*/
 			value = strtok(NULL, "\0");/*get value*/
-			_alloc(&value, 1);/* ADDED TO MEMORY STORAGE */
 			return (value);
 		}
 	}

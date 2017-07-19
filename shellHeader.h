@@ -57,17 +57,17 @@ char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
 int _strcmp(char *s1, char *s2);
+char *_strncpy(char *dest, char *src, int n)
+char *_strdup(char *str);
 
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);
 int cmdchk(char **token, char **environ);
 char *cutspecial(char *string);
+char *_addpath(char *first, char *second);
 
 /*MEMORYFUNC*/
-int _alloc(char **memory, int controller);
-char *_strdup(char *str);
-char *_addpath(char *first, char *second);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
 /*SIGNAL*/
