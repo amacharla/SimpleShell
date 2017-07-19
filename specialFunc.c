@@ -19,7 +19,7 @@ int _echo(char **tokens, char **env)
 			_printf("%d\n", (int) pid);
 			return (EXIT_SUCCESS);
 		}
-		if (tokens[1][1] != '\0')
+		else
 		{
 			value = &tokens[1][1];/*set KEY after $*/
 			tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
@@ -51,11 +51,9 @@ int _echo(char **tokens, char **env)
 int _cd(char **tokens, char **env)
 {
 	int check;
+	(void)(env);
 
-	if (tokens[1] == NULL)
-		check = chdir(_getenv("HOME", env));
-	else
-		check = chdir(tokens[1]);
+	check = chdir(tokens[1]);
 	if (check == -1)
 	{
 		perror("CD Failed");
@@ -75,44 +73,5 @@ int _env(char **env)
 
 	for (i = 0; env[i]; i++)
 		_printf("%s\n", env[i]);
-	return (EXIT_SUCCESS);
-}
-
-/**
- * cp - function that copies the content of a file to another file
- * @copy: first argument (file name) to copy from
- * @paste: second argument (creates files and copies content)
- * Return: EXIT_SUCCESS or EXIT_FAILURE
- */
-int _cp(char **tokens)
-{
-	int fdC, fdP, count;
-	char *copy = tokens[1], *paste = tokens[2];
-	char buffer[1024];
-
-	if (copy == NULL || paste == NULL)
-	{
-		perror("CP: Invalid arguments");
-		return (EXIT_FAILURE);
-	}
-	fdC = open(copy, O_RDONLY);
-	fdP = open(paste, O_CREAT | O_TRUNC | O_WRONLY, 0664);
-	if (fdC == -1 || fdP == -1)
-		return (EXIT_FAILURE);
-
-	do {/*read multiple times if more content then given size*/
-	count = read(fdC, buffer, 1024);
-	if (count != 0)
-		count = write(fdP, buffer, count);
-	if (count == -1)
-		break;
-	} while (count); /*untill count becomes 0*/
-
-	count = close(fdC), count = close(fdP);
-	if (count == -1)
-	{
-		perror("CP Failed");
-		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }

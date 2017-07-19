@@ -15,20 +15,3 @@ int _strcmp(char *s1, char *s2)
 
 	return (diff);
 }
-
-/**
- * _strncpy - copies array
- * @dest: pointer array type char
- * @src: string to be copied into array
- * @n: index to start
- * Return: dest array type car
- */
-char *_strncpy(char *dest, char *src, int n)
-{
-        int i;
-
-        for (i = n; src[i]; i++)
-                dest[i] = src[i];
-        dest[i] = '\0';
-        return (dest);
-}

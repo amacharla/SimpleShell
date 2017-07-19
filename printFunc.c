@@ -11,6 +11,16 @@ int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
+
+/**
+ * print_percent - print percent
+ * Return: count
+ */
+int print_percent(void)
+{
+	_putchar('%');
+	return (1);
+}
 /**
 ** print_char - prints character
 ** @arg: char to print
