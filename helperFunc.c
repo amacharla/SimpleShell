@@ -34,10 +34,7 @@ char **tokenize(char *string, const char *delimiter)
 		token = strtok(NULL, delimiter);
 	}
 	tokens[i] = NULL;
-<<<<<<< HEAD
 	free(arguments);
-=======
->>>>>>> e6b83a3be6663300ff813057a95fef57fe8e531b
 	return (tokens);
 
 }
@@ -78,16 +75,10 @@ char *_getenv(char *name, char **environ)
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
 			/*make space for the VALUE*/
-<<<<<<< HEAD
 			value = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
 			if (!value)
 				return (NULL);
-			_strncpy(value, environ[i], (_strlen(name) + 1));
-=======
-			value = _strdup(environ[i]);
->>>>>>> e6b83a3be6663300ff813057a95fef57fe8e531b
-			value = strtok(value, "=");/*cut off key*/
-			value = strtok(NULL, "\0");/*get value*/
+			_strncpy(value, environ[i], (_strlen(name) + 1));/*copying path directly without dublicate & strok*/
 			return (value);
 		}
 	}
