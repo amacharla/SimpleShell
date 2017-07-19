@@ -33,7 +33,6 @@ int main(int argc, char **argv, char **env)
 		if (tokens == NULL)
 		{
 			perror("tokenize() Failed");
-			/*_alloc(&buffer, -1);*/
 		}
 		if (!_strcmp(tokens[0], "exit"))
 			_exit(EXIT_SUCCESS);
@@ -50,8 +49,6 @@ int main(int argc, char **argv, char **env)
 		if (check == EXIT_FAILURE)
 		{
 			perror("Execution Failed");
-			/*_alloc(NULL, -1);*/
-			exit(EXIT_FAILURE);
 		}
 		if (!interactive)
 			_printf("$ ");
