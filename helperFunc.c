@@ -6,16 +6,12 @@
  * @delimiter: where the sting is being split
  * Return: array of char pointers representing tokens
  */
-char **tokenize(char *string, const char *delimiter)
+char **tokenize(char *arguments, const char *delimiter)
 {
-	char **tokens, *token, *arguments;
+	char **tokens, *token;
 	size_t i, numtokens = 1;
 
-	if (string == NULL || delimiter == NULL)
-		return (NULL);
-	/* duplicates string so we can manipulate it*/
-	arguments = _strdup(string);
-	if (arguments == NULL)
+	if (arguments == NULL || delimiter == NULL)
 		return (NULL);
 	/*go through string and count the delimiters*/
 	for (i = 0; arguments[i]; i++)
@@ -74,9 +70,9 @@ char *_getenv(char *name, char **environ)
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
 			/*make space for the VALUE*/
-			value = _strdup(environ[i]);
-			value = strtok(value, "=");/*cut off key*/
-			value = strtok(NULL, "\0");/*get value*/
+			value = malloc(sizeof(char) * (_strlen(environ[i]) - _strlen(name) + 1));
+			value = _strncpy(value, environ[i], (_strlen(name) + 1));
+			ptofree(value, 1);
 			return (value);
 		}
 	}
@@ -117,5 +113,6 @@ int cmdchk(char **tokens, char **environ)
 			break;
 		}
 	}
+	free(paths);
 	return (controller);
 }

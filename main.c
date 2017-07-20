@@ -28,12 +28,18 @@ int main(int argc, char **argv, char **env)
 		_printf("$ ");
 	while (getline(&buffer, &bufsize, stdin) != -1)
 	{
+		ptofree(NULL, 0);
 		history_file(buffer, env);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 			perror("tokenize() Failed");
 		if (!_strcmp(tokens[0], "exit"))
+		{
+			ptofree(NULL, -1);
+			free(tokens);
+			free(buffer);
 			_exit(EXIT_SUCCESS);
+		}
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
 		if (isCmd == 0)/*COMMAND EXECUTION*/
 			check = cmdExec(tokens, env);
@@ -47,8 +53,8 @@ int main(int argc, char **argv, char **env)
 			_printf("$ ");
 		count++;
 		fflush(stdin);
-		free(tokens[0]);
-	       	free(tokens);
+		ptofree(NULL, -1);
+		free(tokens);
 	}
 	return (EXIT_SUCCESS);
 }

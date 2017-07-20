@@ -11,29 +11,33 @@ int _echo(char **tokens, char **env)
 	char *value;
 	int check;
 
-	if (_strstr(tokens[1], "$") != NULL)/*get enviroment var*/
-	{
-		if (tokens[1][1] == '$')
+	if (tokens[1])
+	{	
+		if (tokens[1][0] == '$')/*get enviroment var*/
 		{
-			pid = getpid();
-			_printf("%d\n", (int) pid);
-			return (EXIT_SUCCESS);
+			if (tokens[1][1] == '$')
+			{		
+				pid = getpid();
+				_printf("%d\n", (int) pid);
+				return (EXIT_SUCCESS);
+			}
+			if (tokens[1][1] != '\0')
+			{
+				value = &tokens[1][1];/*set KEY after $*/
+				tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
+			}
 		}
-		if (tokens[1][1] != '\0')
+		if (tokens[1][0] == '*' && tokens[1][1] == '\0')/* ls current directory*/
 		{
-			value = &tokens[1][1];/*set KEY after $*/
-			tokens[1] = _getenv(value, env); /*replace KEY with VALUE*/
+			tokens[0] = "ls";
+			tokens[1] = ".";
+			if (cmdchk(tokens, env) != 0)
+				return (EXIT_FAILURE);
 		}
 	}
-	else if (_strstr(tokens[1], "*") != NULL)/* ls current directory*/
-	{
-		tokens[0] = "ls";
-		tokens[1] = ".";
-		if (cmdchk(tokens, env) != 0)
-			return (EXIT_FAILURE);
-	}
-
 	check = cmdExec(tokens, env);/*execute cmd which updated tokens*/
+	/*if (trig == 1)*/
+		/*free(tokens[1]);*/
 	if (check == EXIT_FAILURE)
 	{
 		perror("Echo Execution Failed");

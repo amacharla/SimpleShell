@@ -8,17 +8,18 @@
 int history_file(char *text_content, char **env)
 {
 	int c, fd, status = 0;
-	char *filename = ".simple_shell_history";
+	char *filename = ".simple_shell_history", *dir;
 	pid_t pid;
 
 	if (text_content == NULL)
 		exit(EXIT_FAILURE);
+	dir = _getenv("HOME", env);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
-		chdir(_getenv("HOME", env));
+		chdir(dir);
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 		if (fd == -1)
 			exit(EXIT_FAILURE);

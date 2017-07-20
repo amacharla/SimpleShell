@@ -11,11 +11,7 @@ char *_addpath(char *first, char *second)
 	int i, j, k;
 	char *new;
 
-	for (i = 0; first[i]; i++)
-		;
-	for (j = 0; second[j]; j++)
-		;
-	k = i + j + 1;
+	k = (_strlen(first)) + (_strlen(second)) + 2;
 	new = malloc(k * sizeof(char));
 	if (!new)
 		return (NULL);
@@ -23,12 +19,13 @@ char *_addpath(char *first, char *second)
 		new[i] = first[i];
 	new[i] = '/';
 	i++;
-	for (j = 0; i < k; j++)
+	for (j = 0; second[j]; j++)
 	{
 		new[i] = second[j];
 		i++;
 	}
 	new[i] = '\0';
+	ptofree(new, 1);
 	return (new);
 }
 /**
@@ -53,8 +50,9 @@ char *_strdup(char *str)
 	if (a == NULL)
 		return (NULL);
 	/*coping string*/
-	for (j = 0; j <= i; j++)
+	for (j = 0; j < i; j++)
 		a[j] = str[j];
+	ptofree(a, 1);
 	return (a);
 }
 /**
@@ -108,4 +106,39 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 		free(ptr);
 	}
 	return (newptr);
+}
+/**
+ * ptofree - saves malloced pointers
+ * @p: pointer to save
+ * @n: stage
+ * Return: double pointer holding malloced pointers
+ */
+char **ptofree(char *p, int n)
+{
+        static char *pp[20];
+        int i = 0;
+
+        if (!n & !p)
+        {
+                while(i < 10)
+                {
+                        pp[i] = NULL;
+                        i++;
+                }
+        }
+        else if(!p && n == -1)
+	{
+		i = 0;
+		while(pp[i])
+			free(pp[i]), i++;
+		return (NULL);
+	}
+	else
+        {
+                i = 0;
+                while(pp[i])
+                        i++;
+                pp[i] = p;
+        }
+        return (pp);
 }

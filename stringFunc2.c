@@ -62,3 +62,19 @@ int _strcmp(char *s1, char *s2)
 
 	return (diff);
 }
+/**
+ * _strncpy - copies array
+ * @dest: pointer array type char
+ * @src: string to be copied into array
+ * @n: index to start
+ * Return: dest array type car
+ */
+char *_strncpy(char *dest, char *src, int n)
+{
+        int i;
+
+        for (i = 0; src[n]; i++, n++)
+                dest[i] = src[n];
+        dest[i] = '\0';
+        return (dest);
+}
