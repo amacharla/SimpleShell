@@ -45,7 +45,7 @@ int history_file(char *text_content, char **env)
  */
 int history(char **env)
 {
-	int c = 1, fd, i = 0, status = 0;
+	int c = 1, fd, i = 0, j = 0, status = 0, count = 0;
 	char text[1024], *buf, *filename = ".simple_shell_history";
 	pid_t pid;
 
@@ -60,14 +60,17 @@ int history(char **env)
 			c = read(fd, text, 1024);/*read from history file*/
 			if (c == -1)
 				exit(EXIT_FAILURE);
+			for (i = 0; i < c; i++)
+				if (text[i] == '\n')
+					count++;
 			if (c != 0)
 			{
 				buf = strtok(text, "\n");
-				while (buf && *buf != EOF)
+				while (j < count)
 				{
-					_printf("%d  %s\n", i, buf);
+					_printf("%d  %s\n", j, buf);
 					buf = strtok(NULL, "\n\0");
-					i++;
+					j++;
 				}
 			}
 		} while (c);
