@@ -115,32 +115,32 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
  */
 char **ptofree(char *p, int n)
 {
-        static char *pp[20];
-        int i = 0;
+	static char *pp[20];
+	int i = 0;
 
-        if (!n & !p)
-        {
-                while(i < 10)
-                {
-                        pp[i] = NULL;
-                        i++;
-                }
-        }
-        else if(!p && n == -1)
+	if (!n & !p)
+	{
+		while (i < 10)
+		{
+			pp[i] = NULL;
+			i++;
+		}
+	}
+	else if (!p && n == -1)
 	{
 		i = 0;
-		while(pp[i])
+		while (pp[i])
 			free(pp[i]), i++;
 		return (NULL);
 	}
 	else
-        {
-                i = 0;
-                while(pp[i])
-                        i++;
-                pp[i] = p;
-        }
-        return (pp);
+	{
+		i = 0;
+		while (pp[i])
+			i++;
+		pp[i] = p;
+	}
+	return (pp);
 }
 /**
  * gethome - finds the home path
@@ -152,7 +152,7 @@ char *gethome(char **env)
 	int i = 0;
 	char *home;
 
-	while(env[i])
+	while (env[i])
 	{
 		if (_strncmp(env[i], "HOME", 4))
 		{

@@ -71,10 +71,10 @@ int _strcmp(char *s1, char *s2)
  */
 char *_strncpy(char *dest, char *src, int n)
 {
-        int i;
+	int i;
 
-        for (i = 0; src[n]; i++, n++)
-                dest[i] = src[n];
-        dest[i] = '\0';
-        return (dest);
+	for (i = 0; src[n]; i++, n++)
+		dest[i] = src[n];
+	dest[i] = '\0';
+	return (dest);
 }

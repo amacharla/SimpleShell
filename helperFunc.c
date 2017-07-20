@@ -88,7 +88,7 @@ int cmdchk(char **tokens, char **environ)
 {
 	int i, controller = -1;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "env", "history", "cp", 0};
+	static char * const special [] = {"echo", "cd", "env", "history", "cp", 0};
 
 	path = _getenv("PATH", environ);
 	paths = tokenize(path, ":");

@@ -15,13 +15,9 @@ int main(int argc, char **argv, char **env)
 	struct stat sb;
 
 	UNUSED(argc), UNUSED(argv);
-
 	signal(SIGINT, signal_handler);
 	if (fstat(STDIN_FILENO, &sb) == -1)
-	{
-		perror("Fstat error");
-		_exit(EXIT_FAILURE);
-	}
+		perror("Fstat error"), _exit(EXIT_FAILURE);
 	if ((sb.st_mode & S_IFMT) == S_IFIFO)
 		interactive = 1;
 	if (!interactive)
@@ -29,17 +25,13 @@ int main(int argc, char **argv, char **env)
 	home = gethome(env);
 	while (getline(&buffer, &bufsize, stdin) != -1)
 	{
-		ptofree(NULL, 0);
-		history_file(buffer, home);
+		ptofree(NULL, 0), history_file(buffer, home);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 			perror("tokenize() Failed");
 		if (!_strcmp(tokens[0], "exit"))
 		{
-			ptofree(NULL, -1);
-			free(tokens);
-			free(buffer);
-			free(home);
+			ptofree(NULL, -1), free(tokens), free(buffer), free(home);
 			_exit(EXIT_SUCCESS);
 		}
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
@@ -54,9 +46,7 @@ int main(int argc, char **argv, char **env)
 		if (!interactive)
 			_printf("$ ");
 		count++;
-		fflush(stdin);
-		ptofree(NULL, -1);
-		free(tokens);
+		fflush(stdin), ptofree(NULL, -1), free(tokens);
 	}
 	return (EXIT_SUCCESS);
 }
