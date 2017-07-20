@@ -14,7 +14,7 @@ int main(int argc, char **argv, char **env)
 	int check, isCmd, count = 1, interactive = 0;
 	struct stat sb;
 
-	UNUSED(argc), UNUSED(argv);
+	UNUSED(argc);
 	signal(SIGINT, signal_handler);
 	if (fstat(STDIN_FILENO, &sb) == -1)
 		perror("Fstat error"), _exit(EXIT_FAILURE);
@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **env)
 		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
 			check = specialExec(tokens, env, isCmd, home);
 		else/*NO COMMAND FOUND*/
-			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
+			_printf("%s: %d: %s: not found\n", argv[0], count, tokens[0]);
 		if (check == EXIT_FAILURE)
 			perror("Execution Failed");
 		if (!interactive)
