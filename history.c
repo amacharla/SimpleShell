@@ -2,7 +2,7 @@
 /**
  * history_file - creates the history file or appends to it
  * @text_content: text to add in file
- * @env: enviroment variables
+ * @dir: path to home
  * Return: returns 1 on succesm , -1 on failure
  */
 int history_file(char *text_content, char *dir)
@@ -39,7 +39,7 @@ int history_file(char *text_content, char *dir)
 
 /**
  * history -  reads the history and prints it to stdout
- * @env: enviroment varables
+ * @dir: Path to enviroment
  * Return: returns 1 if success or 0 if fail
  */
 int history(char *dir)

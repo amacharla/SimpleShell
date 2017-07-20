@@ -2,7 +2,7 @@
 /**
  * tokenize -  splits string into smaller strings
  * and palces them in an array
- * @string: string being examined
+ * @arguments: string being examined
  * @delimiter: where the sting is being split
  * Return: array of char pointers representing tokens
  */

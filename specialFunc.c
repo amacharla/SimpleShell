@@ -85,9 +85,8 @@ int _env(char **env)
 }
 
 /**
- * cp - function that copies the content of a file to another file
- * @copy: first argument (file name) to copy from
- * @paste: second argument (creates files and copies content)
+ * _cp - function that copies the content of a file to another file
+ * @tokens: tokens[1] is copy and tokens[2] is paste.
  * Return: EXIT_SUCCESS or EXIT_FAILURE
  */
 int _cp(char **tokens)

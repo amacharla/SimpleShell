@@ -123,6 +123,7 @@ int cmdExec(char **tokens, char **env)
  * @tokens: command and its arguments
  * @env: current enviroment
  * @controller: point to the right special function to execute the cmd
+ * @home: path to home
  * Return: SUCCESS or FAILURE
  */
 int specialExec(char **tokens, char **env, int controller, char *home)
