@@ -31,7 +31,7 @@ typedef struct printf_functions
 /*COSTUMFUNC*/
 char *_strtok(char *str, const char *delim);
 int cmdExec(char **tokens, char **env);
-int specialExec(char **tokens, char **env, int controller);
+int specialExec(char **tokens, char **env, int controller, char *home);
 
 /*SPECIALFUNC*/
 int _echo(char **tokens, char **env);
@@ -40,8 +40,8 @@ int _env(char **env);
 int _cp(char **tokens);
 
 /*HISTORY*/
-int history(char **env);
-int history_file(char *text_content, char **env);
+int history(char *dir);
+int history_file(char *text_content, char *dir);
 
 /*PRINTFFUNC*/
 int _putchar(char c);
@@ -65,6 +65,7 @@ char **tokenize(char *string, const char *delimiter);
 char *_getenv(char *name, char **environ);
 int cmdchk(char **token, char **environ);
 char *cutspecial(char *string);
+char *gethome(char **env);
 
 /*MEMORYFUNC*/
 char *_strdup(char *str);

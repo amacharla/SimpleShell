@@ -71,7 +71,7 @@ char *_getenv(char *name, char **environ)
 		{
 			/*make space for the VALUE*/
 			value = malloc(sizeof(char) * (_strlen(environ[i]) - _strlen(name) + 1));
-			value = _strncpy(value, environ[i], (_strlen(name) + 1));
+			value = _strncpy(value, environ[i], (_strlen(name)));
 			ptofree(value, 1);
 			return (value);
 		}

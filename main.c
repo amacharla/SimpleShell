@@ -9,7 +9,7 @@
  */
 int main(int argc, char **argv, char **env)
 {
-	char **tokens, *buffer = NULL;
+	char **tokens, *buffer = NULL, *home;
 	size_t bufsize = 0;
 	int check, isCmd, count = 1, interactive = 0;
 	struct stat sb;
@@ -26,10 +26,11 @@ int main(int argc, char **argv, char **env)
 		interactive = 1;
 	if (!interactive)
 		_printf("$ ");
+	home = gethome(env);
 	while (getline(&buffer, &bufsize, stdin) != -1)
 	{
 		ptofree(NULL, 0);
-		history_file(buffer, env);
+		history_file(buffer, home);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
 			perror("tokenize() Failed");
@@ -38,13 +39,14 @@ int main(int argc, char **argv, char **env)
 			ptofree(NULL, -1);
 			free(tokens);
 			free(buffer);
+			free(home);
 			_exit(EXIT_SUCCESS);
 		}
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
 		if (isCmd == 0)/*COMMAND EXECUTION*/
 			check = cmdExec(tokens, env);
 		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
-			check = specialExec(tokens, env, isCmd);
+			check = specialExec(tokens, env, isCmd, home);
 		else/*NO COMMAND FOUND*/
 			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
 		if (check == EXIT_FAILURE)

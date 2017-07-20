@@ -5,15 +5,14 @@
  * @env: enviroment variables
  * Return: returns 1 on succesm , -1 on failure
  */
-int history_file(char *text_content, char **env)
+int history_file(char *text_content, char *dir)
 {
 	int c, fd, status = 0;
-	char *filename = ".simple_shell_history", *dir;
+	char *filename = ".simple_shell_history";
 	pid_t pid;
 
 	if (text_content == NULL)
 		exit(EXIT_FAILURE);
-	dir = _getenv("HOME", env);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
@@ -43,7 +42,7 @@ int history_file(char *text_content, char **env)
  * @env: enviroment varables
  * Return: returns 1 if success or 0 if fail
  */
-int history(char **env)
+int history(char *dir)
 {
 	int c = 1, fd, i = 0, j = 0, status = 0, count = 0;
 	char text[1024], *buf, *filename = ".simple_shell_history";
@@ -54,7 +53,7 @@ int history(char **env)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
-		chdir(_getenv("HOME", env));/*history file in home dir*/
+		chdir(dir);/*history file in home dir*/
 		fd = open(filename, O_RDONLY);/*open file to read*/
 		do {
 			c = read(fd, text, 1024);/*read from history file*/
@@ -66,12 +65,13 @@ int history(char **env)
 			if (c != 0)
 			{
 				buf = strtok(text, "\n");
-				while (j < count)
-				{
-					_printf("%d  %s\n", j, buf);
-					buf = strtok(NULL, "\n\0");
-					j++;
-				}
+				if (buf)
+					while (j < count)
+					{
+						_printf("%d  %s\n", j, buf);
+						buf = strtok(NULL, "\n\0");
+						j++;
+					}
 			}
 		} while (c);
 		exit(EXIT_SUCCESS);

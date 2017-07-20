@@ -125,7 +125,7 @@ int cmdExec(char **tokens, char **env)
  * @controller: point to the right special function to execute the cmd
  * Return: SUCCESS or FAILURE
  */
-int specialExec(char **tokens, char **env, int controller)
+int specialExec(char **tokens, char **env, int controller, char *home)
 {
 	int check;
 
@@ -140,7 +140,7 @@ int specialExec(char **tokens, char **env, int controller)
 	else if (controller == 3)/* ENV */
 		check = _env(env);
 	else if (controller == 4)/* HISTORY */
-		check = history(env);
+		check = history(home);
 	else if (controller == 5)/* CP */
 		check = _cp(tokens);
 	else/* ADD MORE SPECIAL CASES */

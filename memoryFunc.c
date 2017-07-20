@@ -142,3 +142,25 @@ char **ptofree(char *p, int n)
         }
         return (pp);
 }
+/**
+ * gethome - finds the home path
+ * @env: double pointer with env
+ * Return: pointer with home path
+ */
+char *gethome(char **env)
+{
+	int i = 0;
+	char *home;
+
+	while(env[i])
+	{
+		if (_strncmp(env[i], "HOME", 4))
+		{
+			home = malloc(sizeof(char) * (_strlen(env[i]) - 4));
+			home = _strncpy(home, env[i], 5);
+			return (home);
+		}
+		i++;
+	}
+	return (NULL);
+}

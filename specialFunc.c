@@ -12,11 +12,11 @@ int _echo(char **tokens, char **env)
 	int check;
 
 	if (tokens[1])
-	{	
+	{
 		if (tokens[1][0] == '$')/*get enviroment var*/
 		{
 			if (tokens[1][1] == '$')
-			{		
+			{
 				pid = getpid();
 				_printf("%d\n", (int) pid);
 				return (EXIT_SUCCESS);
