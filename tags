@@ -8,7 +8,6 @@ FLAGS	Makefile	/^FLAGS = -Wall -Werror -Wextra -pedantic -g $/;"	m
 UNUSED	main.c	2;"	d	file:
 _SHELLHEADER_H	shellHeader.h	2;"	d
 _addpath	memoryFunc.c	/^char *_addpath(char *first, char *second)$/;"	f
-_alloc	alloc.c	/^int _alloc(char *memory, int controller)$/;"	f
 _cd	specialFunc.c	/^int _cd(char **tokens, char **env)$/;"	f
 _cp	specialFunc.c	/^int _cp(char **tokens)$/;"	f
 _echo	specialFunc.c	/^int _echo(char **tokens, char **env)$/;"	f
@@ -24,13 +23,15 @@ _strcpy	stringFunc.c	/^char *_strcpy(char *dest, char *src)$/;"	f
 _strdup	memoryFunc.c	/^char *_strdup(char *str)$/;"	f
 _strlen	stringFunc.c	/^int _strlen(char *s)$/;"	f
 _strncmp	stringFunc.c	/^int _strncmp(char *s1, char *s2, int n)$/;"	f
+_strncpy	stringFunc2.c	/^char *_strncpy(char *dest, char *src, int n)$/;"	f
 _strstr	stringFunc.c	/^char *_strstr(char *haystack, char *needle)$/;"	f
 _strtok	customFunc.c	/^char *_strtok(char *str, const char *delim)$/;"	f
 cmdExec	customFunc.c	/^int cmdExec(char **tokens, char **env)$/;"	f
 cmdchk	helperFunc.c	/^int cmdchk(char **tokens, char **environ)$/;"	f
 cutspecial	helperFunc.c	/^char *cutspecial(char *string)$/;"	f
-history	history.c	/^int history(char **env)$/;"	f
-history_file	history.c	/^int history_file(char *text_content, char **env)$/;"	f
+gethome	memoryFunc.c	/^char *gethome(char **env)$/;"	f
+history	history.c	/^int history(char *dir)$/;"	f
+history_file	history.c	/^int history_file(char *text_content, char *dir)$/;"	f
 main	main.c	/^int main(int argc, char **argv, char **env)$/;"	f
 print_char	printFunc.c	/^int print_char(va_list arg)$/;"	f
 print_number	printFunc.c	/^int print_number(va_list arg)$/;"	f
@@ -38,7 +39,8 @@ print_string	printFunc.c	/^int print_string(va_list arg)$/;"	f
 printer	shellHeader.h	/^	int (*printer)();$/;"	m	struct:printf_functions
 printf_functions	shellHeader.h	/^typedef struct printf_functions$/;"	s
 pstruct	shellHeader.h	/^} pstruct;$/;"	t	typeref:struct:printf_functions
+ptofree	memoryFunc.c	/^char **ptofree(char *p, int n)$/;"	f
 signal_handler	customFunc.c	/^void signal_handler(int s)$/;"	f
-specialExec	customFunc.c	/^int specialExec(char **tokens, char **env, int controller)$/;"	f
-tokenize	helperFunc.c	/^char **tokenize(char *string, const char *delimiter)$/;"	f
+specialExec	customFunc.c	/^int specialExec(char **tokens, char **env, int controller, char *home)$/;"	f
+tokenize	helperFunc.c	/^char **tokenize(char *arguments, const char *delimiter)$/;"	f
 type	shellHeader.h	/^	char type;$/;"	m	struct:printf_functions

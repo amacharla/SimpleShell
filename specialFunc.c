@@ -58,6 +58,8 @@ int _cd(char **tokens, char **env)
 
 	if (tokens[1] == NULL)
 		check = chdir(_getenv("HOME", env));
+	else if (tokens[1][0] == '-')
+		check = chdir(_getenv("OLDPWD", env));
 	else
 		check = chdir(tokens[1]);
 	if (check == -1)
@@ -96,7 +98,7 @@ int _cp(char **tokens)
 
 	if (copy == NULL || paste == NULL)
 	{
-		perror("CP: Invalid arguments");
+		perror("cp: missing file operand");
 		return (EXIT_FAILURE);
 	}
 	fdC = open(copy, O_RDONLY);
