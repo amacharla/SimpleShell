@@ -1,51 +1,11 @@
 #include "shellHeader.h"
 
 /**
-** _printf - gives output
-** @format: char
-** Return: num of chars
-**/
-int _printf(const char *format, ...)
-{
-	unsigned int i, j, count;
-	char mod;
-	va_list arguments;
-
-	pstruct print_func [] = {
-		{'c', print_char}, {'s', print_string},
-		{'d', print_number}, {'\0', NULL}
-	};
-	va_start(arguments, format);
-	i = 0, j = 0, count = 0;
-	while (format && format[i])
-	{
-		if (!(format[i] == '%' && format[i + 1]))
-			{_putchar(format[i]); count++; i++; continue; } /*move to next argument*/
-		mod = format[i + 1];
-		while (print_func[j].type)
-		{
-			if (print_func[j].type == mod)
-			{
-				count += print_func[j].printer(arguments);
-				i++;
-				break;
-			}
-			j++;
-		}
-		if (print_func[j].type == '\0')
-		{
-			_putchar('%');
-			_putchar(mod);
-			count += 2;
-			i++; /*move past %*/
-		}
-		j = 0; /*reset transverse for type if matched or hits null*/
-		i++; /*move past mod*/
-	}
-	va_end(arguments);
-	return (count);
-}
-
+ * _getline - custom getline function
+ * @lineptr: buffer to fill
+ * @n: number of bytes to get
+ * Return: number of bytes read
+ */
 ssize_t _getline(char **lineptr, size_t *n)
 {
 	ssize_t readcount;
@@ -107,8 +67,7 @@ char *_strtok(char *str, const char *delim)
 				if (token[i] == delim[j])/*if match*/
 				{
 					i++;/*duplicate remainder of token for latter access*/
-					statictok = _strdup(&token[i]);
-					i--;/*replace delim with null*/
+					statictok = _strdup(&token[i]),	i--;/*replace delim with null*/
 					token[i] = '\0';
 					token = _realloc(token, 0, i);/*realloc to required amount*/
 					if (statictok == NULL || token == NULL)
@@ -184,10 +143,6 @@ int specialExec(char **tokens, char **env, int controller)
 		check = history(env);
 	else if (controller == 5)/* CP */
 		check = _cp(tokens);
-	/*else if (controller = 6) SET
-		check = _set(tokens, env);*/
-	/*else if (controller = 7) UNSET
-		check = _unset(tokens, env);*/
 	else/* ADD MORE SPECIAL CASES */
 	{
 		perror("Special Execution Failed");

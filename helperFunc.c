@@ -34,7 +34,6 @@ char **tokenize(char *string, const char *delimiter)
 		token = strtok(NULL, delimiter);
 	}
 	tokens[i] = NULL;
-	free(arguments);
 	return (tokens);
 
 }
@@ -67,7 +66,7 @@ char *cutspecial(char *string)
  */
 char *_getenv(char *name, char **environ)
 {
-	char *value, *temp;
+	char *value;
 	unsigned int i;
 
 	for (i = 0; environ[i]; i++)
@@ -75,10 +74,9 @@ char *_getenv(char *name, char **environ)
 		if (_strncmp(environ[i], name, _strlen(name)))
 		{
 			/*make space for the VALUE*/
-			value = malloc(sizeof(char) * _strlen(environ[i]) - _strlen(name));
-			if (!value)
-				return (NULL);
-			_strncpy(value, environ[i], (_strlen(name) + 1));/*copying path directly without dublicate & strok*/
+			value = _strdup(environ[i]);
+			value = strtok(value, "=");/*cut off key*/
+			value = strtok(NULL, "\0");/*get value*/
 			return (value);
 		}
 	}
@@ -94,7 +92,7 @@ int cmdchk(char **tokens, char **environ)
 {
 	int i, controller = -1;
 	char **paths, *path, *cmd, *cmdp;
-	char *special [] = {"echo", "cd", "env", "history", "cp", "set", "unset", 0};
+	char *special [] = {"echo", "cd", "env", "history", "cp", 0};
 
 	path = _getenv("PATH", environ);
 	paths = tokenize(path, ":");

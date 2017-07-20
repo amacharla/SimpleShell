@@ -31,9 +31,7 @@ int main(int argc, char **argv, char **env)
 		history_file(buffer, env);
 		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
 		if (tokens == NULL)
-		{
 			perror("tokenize() Failed");
-		}
 		if (!_strcmp(tokens[0], "exit"))
 			_exit(EXIT_SUCCESS);
 		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
@@ -42,17 +40,15 @@ int main(int argc, char **argv, char **env)
 		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
 			check = specialExec(tokens, env, isCmd);
 		else/*NO COMMAND FOUND*/
-		{
 			_printf("hsh: %d: %s: not found\n", count, tokens[0]);
-		}
 		if (check == EXIT_FAILURE)
-		{
 			perror("Execution Failed");
-		}
 		if (!interactive)
 			_printf("$ ");
 		count++;
 		fflush(stdin);
+		free(tokens[0]);
+	       	free(tokens);
 	}
 	return (EXIT_SUCCESS);
 }
