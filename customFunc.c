@@ -137,7 +137,7 @@ int specialExec(char **tokens, char **env, int controller, char *home)
 	if (controller == 1)/* ECHO */
 		check = _echo(tokens, env);
 	else if (controller == 2)/* CD */
-		check = _cd(tokens, env);
+		check = _cd(tokens, env, home);
 	else if (controller == 3)/* ENV */
 		check = _env(env);
 	else if (controller == 4)/* HISTORY */

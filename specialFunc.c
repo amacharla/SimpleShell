@@ -52,13 +52,15 @@ int _echo(char **tokens, char **env)
  * @env: enviroment variables used for getenv()
  * Return: SUCCESS or FAILURE
  */
-int _cd(char **tokens, char **env)
+int _cd(char **tokens, char **env, char *home)
 {
 	int check, i = 0, j = 0;
 	char *buff;
 	size_t size = 256;
+
+	buff = malloc(sizeof(char) * 256);
 	if (tokens[1] == NULL)
-		check = chdir(_getenv("HOME", env));
+		check = chdir(home);
 	else if (tokens[1][0] == '-')
 		check = chdir(_getenv("OLDPWD", env));
 	else
@@ -70,7 +72,6 @@ int _cd(char **tokens, char **env)
 	}
 	else
 	{
-		buff = malloc(sizeof(char) * 256);
 		buff = getcwd(buff , size);
 		while (!_strncmp(env[i], "PWD", 3))
 			i++;
@@ -78,8 +79,8 @@ int _cd(char **tokens, char **env)
 			j++;
 		env[j] = _strncpy(env[j], env[i], 6, 3);
 		env[i] = _strncpy(env[i], buff, 4, 0);
-		free(buff);
 	}
+	free(buff);
 	return (EXIT_SUCCESS);
 }
 

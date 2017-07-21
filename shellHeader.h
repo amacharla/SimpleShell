@@ -35,7 +35,7 @@ int specialExec(char **tokens, char **env, int controller, char *home);
 
 /*SPECIALFUNC*/
 int _echo(char **tokens, char **env);
-int _cd(char **tokens, char **env);
+int _cd(char **tokens, char **env, char *home);
 int _env(char **env);
 int _cp(char **tokens);
 
