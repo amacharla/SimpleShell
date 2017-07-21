@@ -54,8 +54,9 @@ int _echo(char **tokens, char **env)
  */
 int _cd(char **tokens, char **env)
 {
-	int check;
-
+	int check, i = 0, j = 0;
+	char *buff;
+	size_t size = 256;
 	if (tokens[1] == NULL)
 		check = chdir(_getenv("HOME", env));
 	else if (tokens[1][0] == '-')
@@ -66,6 +67,19 @@ int _cd(char **tokens, char **env)
 	{
 		perror("CD Failed");
 		return (EXIT_FAILURE);
+	}
+	else
+	{
+		buff = malloc(sizeof(char) * 256);
+		buff = getcwd(buff , size);
+		printf("%s\n", buff);
+		while (!_strncmp(env[i], "PWD", 3))
+			i++;
+		while (!_strncmp(env[j], "OLDPWD", 6))
+			j++;
+		env[j] = _strncpy(env[j], env[i], 6, 3);
+		env[i] = _strncpy(env[i], buff, 4, 0);
+		free(buff);
 	}
 	return (EXIT_SUCCESS);
 }

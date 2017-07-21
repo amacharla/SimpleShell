@@ -71,7 +71,7 @@ char *_getenv(char *name, char **environ)
 		{
 			/*make space for the VALUE*/
 			value = malloc(sizeof(char) * (_strlen(environ[i]) - _strlen(name) + 1));
-			value = _strncpy(value, environ[i], (_strlen(name) + 1));
+			value = _strncpy(value, environ[i], 0, (_strlen(name) + 1));
 			ptofree(value, 1);
 			return (value);
 		}
@@ -112,7 +112,7 @@ int cmdchk(char **tokens, char **environ)
 	}
 	for (i = 0; special[i]; i++)
 	{
-		if (_strstr(cmd, special[i]) != NULL)/*if special*/
+		if (!_strcmp(cmd, special[i]))/*if special*/
 		{
 			controller = i + 1;
 			break;

@@ -58,7 +58,7 @@ char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
 int _strcmp(char *s1, char *s2);
-char *_strncpy(char *dest, char *src, int n);
+char *_strncpy(char *dest, char *src, int i, int n);
 
 /*HELPERFUNC*/
 char **tokenize(char *string, const char *delimiter);

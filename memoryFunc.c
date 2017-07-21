@@ -157,7 +157,7 @@ char *gethome(char **env)
 		if (_strncmp(env[i], "HOME", 4))
 		{
 			home = malloc(sizeof(char) * (_strlen(env[i]) - 4));
-			home = _strncpy(home, env[i], 5);
+			home = _strncpy(home, env[i], 0, 5);
 			return (home);
 		}
 		i++;
