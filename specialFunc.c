@@ -72,7 +72,6 @@ int _cd(char **tokens, char **env)
 	{
 		buff = malloc(sizeof(char) * 256);
 		buff = getcwd(buff , size);
-		printf("%s\n", buff);
 		while (!_strncmp(env[i], "PWD", 3))
 			i++;
 		while (!_strncmp(env[j], "OLDPWD", 6))
