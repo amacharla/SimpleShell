@@ -90,6 +90,11 @@ int cmdchk(char **tokens, char **environ)
 	char **paths, *path, *cmd, *cmdp;
 	static char * const special [] = {"echo", "cd", "env", "history", "cp", 0};
 
+	if (tokens[0][0] == '/')
+	{
+		controller = 0;
+		return (controller);
+	}
 	path = _getenv("PATH", environ);
 	paths = tokenize(path, ":");
 	if (!paths)

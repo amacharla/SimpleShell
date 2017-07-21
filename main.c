@@ -48,5 +48,6 @@ int main(int argc, char **argv, char **env)
 		count++;
 		fflush(stdin), ptofree(NULL, -1), free(tokens);
 	}
+	free(buffer), free(home);
 	return (EXIT_SUCCESS);
 }
