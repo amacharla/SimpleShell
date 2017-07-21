@@ -25,28 +25,31 @@ int main(int argc, char **argv, char **env)
 	home = gethome(env);
 	while (getline(&buffer, &bufsize, stdin) != -1)
 	{
-		ptofree(NULL, 0), history_file(buffer, home);
-		tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
-		if (tokens == NULL)
-			perror("tokenize() Failed");
-		if (!_strcmp(tokens[0], "exit"))
+		if (buffer[0] != '\n')
 		{
-			ptofree(NULL, -1), free(tokens), free(buffer), free(home);
-			_exit(EXIT_SUCCESS);
+			ptofree(NULL, 0), history_file(buffer, home);
+			tokens = tokenize(buffer, " ");/*TOKENIZE & COMMAND CHECK*/
+			if (tokens == NULL)
+				perror("tokenize() Failed");
+			if (!_strcmp(tokens[0], "exit"))
+			{
+				ptofree(NULL, -1), free(tokens), free(buffer), free(home);
+				_exit(EXIT_SUCCESS);
+			}
+			isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
+			if (isCmd == 0)/*COMMAND EXECUTION*/
+				check = cmdExec(tokens, env);
+			else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
+				check = specialExec(tokens, env, isCmd, home);
+			else/*NO COMMAND FOUND*/
+				_printf("%s: %d: %s: not found\n", argv[0], count, tokens[0]);
+			if (check == EXIT_FAILURE)
+				perror("Execution Failed");
+			count++;
+			ptofree(NULL, -1), free(tokens);
 		}
-		isCmd = cmdchk(tokens, env);/*Check if cmd and if special cmd*/
-		if (isCmd == 0)/*COMMAND EXECUTION*/
-			check = cmdExec(tokens, env);
-		else if (isCmd >= 1)/*SPECIAL CMD EXECUTION*/
-			check = specialExec(tokens, env, isCmd, home);
-		else/*NO COMMAND FOUND*/
-			_printf("%s: %d: %s: not found\n", argv[0], count, tokens[0]);
-		if (check == EXIT_FAILURE)
-			perror("Execution Failed");
 		if (!interactive)
 			_printf("$ ");
-		count++;
-		fflush(stdin), ptofree(NULL, -1), free(tokens);
 	}
 	free(buffer), free(home);
 	return (EXIT_SUCCESS);
